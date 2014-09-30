@@ -1,0 +1,60 @@
+/*backgrouund*/
+body {
+  background-color: #f9f3f3;
+}
+
+/*navbar*/
+.navbar-default {
+  background-color: #a62316;
+}
+
+/*navbar brand*/
+.navbar-brand {
+  padding: 5px 40px;
+  font-size: 24px;
+  font-size: 24px;
+  font-family: "Lucida Grande", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+}
+.navbar-default .navbar-brand {
+  color: #ffffff;
+  font-size: 22px;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #ffffff;
+  background-color: transparent;
+}
+
+/*navbar nav*/
+.navbar-default .navbar-nav {
+  float: right;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #ffffff;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #ffffff;
+}
+
+/*list-group item*/
+.list-group {
+  padding-top: 20px;
+}
+a.list-group-item {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  color: #0088cc;
+  font-size: 16px;
+  margin-bottom: 0;
+}
+a.list-group-item:hover,
+a.list-group-item:focus {
+  text-decoration: none;
+  background-color: #e3e3e3;
+}
+
+/** progress bar **/
+.progress {
+  margin-bottom: 0px;
+}

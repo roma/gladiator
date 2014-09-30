@@ -1,0 +1,186 @@
+/**---------------------------------------------
+  Accordion Panel
+------------------------------------------------**/
+dl {
+  width: auto;
+  margin:10px auto;
+  background: #f9f3f3;
+  color: #6f3737;
+}
+
+dl dt {
+  background: #f8d1d1;
+  border-bottom: 1px solid #FFFFFF;
+  cursor: pointer;
+  height: 30px;
+  font-size: 20px;
+  vertical-align: middle;
+  padding: 0 0 0 5px;
+}
+
+dl dd {
+  background: #fce9e7;
+  border-top: none;
+  height: auto;
+  font-size: 20px;
+}
+
+/**---------------------------------------------
+  Tool tip
+------------------------------------------------**/
+.tooltip-inner {
+  max-width: 300px;
+  font-size: 16px;
+  text-align: left;
+}
+
+/**---------------------------------------------
+  Table
+------------------------------------------------**/
+.table .no-data-col {
+  background-color: #408080;
+}
+
+.table .not-change-col {
+  background-color: grey;
+}
+
+.stats-column {
+  min-width: 400px;
+}
+
+.table .stats-str {
+  color: #6f3737;
+  text-decoration: none;
+}
+
+.stats-value {
+  width: 475px;
+  word-wrap:break-word;
+}
+
+.table .stats-str-editable {
+  text-decoration: underline;
+}
+
+.edit-keyname {
+  white-space: nowrap;
+}
+
+/**---------------------------------------------
+  edit page
+------------------------------------------------**/
+.edit-config-name {
+  background-color: #f8d1d1;
+  border: 1px solid #ddd;
+  font-size: 18px;
+  padding: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.edit-explanation  {
+  background-color: #f8d1d1;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  padding: 5px;
+}
+
+.edit-explanation-detail  {
+  margin-left: 10px;
+}
+
+.edit-default-value ,
+.current-default-value {
+  background-color: #f8d1d1;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  padding: 5px; 
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.edit-form {
+  margin: 10px;
+}
+
+.send-button {
+  margin-top: 10px;
+}
+
+.send-button .btn:hover {
+  background-color: #cacaca;
+}
+
+.send-button .btn-info:hover {
+  background-color: #0AB1E3;
+}
+
+.edit-change-value {
+  background-color: #f8d1d1;
+  border: 1px solid #ddd;
+  padding: 5px; 
+}
+
+.edit-result {
+  background-color: #ffffff;
+  width: 500px;
+  margin: 10px;
+}
+
+table.table.result-table th {
+  background-color: #cccccc;
+}
+
+label.error {
+  margin-left: 5px;
+  color: #ff0000;
+}
+
+.form-error-msg {
+  color: #ff0000;
+}
+
+/**---------------------------------------------
+  btn
+------------------------------------------------**/
+.edit-btn {
+  padding: 1px 12px;
+  color: #878787;
+}
+
+.edit-btn:hover {
+  background-color: #cacaca;
+}
+
+.reload-btn {
+  background-color: #f8d1d1;
+  padding-top: 0px;
+}
+
+.reload-btn:hover {
+  background-color: #debdbd;
+}
+
+.reload-btn .icon-refresh {
+  color: #6f3737;
+  font-size: 20px;
+}
+
+.btn-lg {
+  padding: 5px 10px;
+}
+
+.table > tbody > tr > td.storage-option {
+  padding-left: 45px;
+}
+
+.status-title {
+  font-size: 36px;
+  padding-top: 10px;
+}
+
+.status-contents-name {
+  text-decoration: underline;
+}
+

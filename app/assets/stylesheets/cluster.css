@@ -1,0 +1,339 @@
+/**-----------------------------
+  Health button
+------------------------------- **/
+.health-button {
+  padding: 0;
+  position: relative;
+  display: block;
+  border-radius: 100px;
+}
+
+.health-button.large_size {
+  width: 30px;
+  height: 30px;
+  margin: -5px 0px;
+}
+
+.health-button.small_size {
+  width: 15px; 
+  height: 15px; 
+  margin: -3px 0px;
+}
+
+.health-button.green {
+  background: -moz-radial-gradient(50% 80%, circle, #00f206, #01c014);
+  background: -webkit-radial-gradient(50% 80%, circle, #00f206, #01c014);
+  box-shadow: 
+    0 2px 6px rgba(0,0,0,0.5),
+    0 2px 10px rgba(20,254,1, 0.7),
+    inset 0 0 5px rgba(12,151,0,0.6);
+}
+
+.health-button.yellow {
+  background: -moz-radial-gradient(50% 80%, circle, #f2f200, #bcc001);
+  background: -webkit-radial-gradient(50% 80%, circle, #f2f200, #bcc001);
+  box-shadow: 
+    0 2px 6px rgba(0,0,0,0.5),
+    0 2px 10px rgba(251,254,1, 0.7),
+    inset 0 0 10px rgba(136,151,0,0.6);
+}
+
+.health-button.red {
+  background: -moz-radial-gradient(50% 80%, circle, #f23600, #c13500);
+  background: -webkit-radial-gradient(50% 80%, circle, #f23600, #c13500);
+  box-shadow: 
+    0 2px 6px rgba(0,0,0,0.5),
+    0 2px 10px rgba(255,0,0, 0.7),
+    inset 0 0 10px rgba(151,0,0,0.6);
+}
+
+.health-button.grey {
+  background: -moz-radial-gradient(50% 80%, circle, #a39694, #605553);
+  background: -webkit-radial-gradient(50% 80%, circle, #a39694, #605553);
+  box-shadow: 
+    0 2px 6px rgba(0,0,0,0.5),
+    0 2px 10px rgba(0,0,0, 0.7),
+    inset 0 0 10px rgba(44,37,43,0.6);
+}
+
+.glare {
+  position: absolute;
+  border-radius: 100px; /** pozition **/
+  width: 100%;
+  height: 100%;
+  background-image: -webkit-linear-gradient(top, rgba(250, 250, 255, 1) 0%, rgba(250, 250, 255, 0.7) 10%, rgba(250, 250, 255, 0) 100%);
+  background-image: -moz-linear-gradient(top, rgba(250, 250, 255, 1) 0%, rgba(250, 250, 255, 0.7) 10%, rgba(250, 250, 255, 0) 100%);
+  z-index: 7;
+}
+
+.glare.large {
+  top: -6px; /** pozition **/
+  -moz-transform: scale(0.8, 0.6); 
+  -webkit-transform: scale(0.8, 0.6); 
+}
+
+.glare.small {
+  top: -4px; /** pozition **/
+}
+
+.error-message {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.require-reload-msg {
+  padding: 20px;
+}
+
+/**-----------------------------
+  Health param
+-------------------------------- **/
+#recover-button {
+  margin-left: 5px;
+  margin-bottom: 8px;
+}
+
+.health-param {
+  font-size: 28px;
+  padding: 10px;
+}
+.extra-pbar {
+  padding-left: 30px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+.extra-process {
+  background-color: #f8d1d1;
+  margin-top: 10px;
+}
+
+.extra-process .sub-contents-name {
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.status-caution {
+  color: red;
+  padding-left: 20px;
+}
+
+#short-vnodes-cnt {
+  font-size: 40px;
+}
+
+#short-vnodes-alert {
+  color: #ffff00;
+  font-size: 30px;
+}
+
+#short-vnodes-caution {
+  color: #ffff00;
+  font-size: 15px;
+}
+
+#lost-vnodes-char {
+  font-size: 40px;
+}
+
+#lost-vnodes-alert {
+  color: #ff0000;
+  font-size: 30px;
+}
+
+#lost-vnodes-caution {
+  color: #ff0000;
+  font-size: 15px;
+}
+
+.recover-restriction-msg {
+  color: #ff0000;
+  font-size: 15px;
+}
+
+/**-----------------------------
+  Status Panel
+-------------------------------- **/
+.status-panel {
+  margin-top: 5px;
+  font-size: 22px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.status-panel td {
+  border: 3px #f9f3f3 solid;
+  width: 220px;
+  height: 100px;
+  vertical-align: top;
+}
+
+.status-panel .panel-instance, .panel-roma-version, .panel-lost-vnodes {
+  background-color: #dc8383;
+}
+
+.status-panel .panel-server, .panel-short-vnodes, .panel-short-vnodes-error, .panel-gladiator-version {
+  background-color: #d15959;
+}
+
+.status-panel .panel-value {
+  display: table-cell;
+  vertical-align: middle;
+  width: 220px;
+  height: 60px;
+  font-size: 26px;
+}
+
+.error-instance-small {
+  font-size: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li.version-diff-info {
+  margin-left: 10px;
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+/**-----------------------------
+  Tables 
+-------------------------------- **/
+.vnodes-column {
+  min-width: 90px;
+}
+
+.datasize-column {
+  min-width: 75px;
+}
+
+.form-inline {
+  display: inline;
+}
+
+.instances-information{
+  background-color: #f8d1d1;
+  padding: 5px;
+  margin-top: 20px;
+}
+
+.table.table-bordered.result-table th{
+  background-color: #cccccc;
+}
+
+.instance-table {
+  background-color: #ffffff;
+  margin: 10px;
+}
+
+.instance-table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+td.instance-status-column {
+  min-width: 100px;
+  text-align: left;
+  white-space: nowrap;
+}
+ 
+td.instance-status-column-past-version {
+  min-width: 100px;
+  text-align: left;
+  white-space: nowrap;
+  background-color: grey;
+} 
+
+td.progress-bar-column {
+  width: 300px;
+  text-align: left;
+  min-width: 125px;
+}
+
+.rate-count {
+  color: #848484;
+}
+
+.no-response-icon {
+  color: #808080;
+  font-size: 17px;
+}
+
+td.past-version-status {
+  background: rgba(0,0,0,0.7);
+  color: #dddddd;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/**----------------------------------------
+  btn
+------------------------------------------- **/
+.btn {
+  margin-top: -5px;
+  margin-bottom: -5px;
+  padding: 3px 12px;
+}
+
+button.reset {
+  margin-left: 10px;
+}
+
+.reset-filter {
+  margin: 5px 10px 3px;
+}
+
+/**---------------------------------------------
+  Join command gerenator
+------------------------------------------------**/
+.join-command-generate .join-command-title {
+  cursor: pointer;
+  height: 30px;
+}
+
+.join-command-generate dd {
+  height: auto;
+  background: #fce9e7;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+
+.join-command-generate {
+  background-color: #f8d1d1;
+  margin-top: 25px;
+}
+
+.join-command-title {
+  font-size: 20px;
+  margin-left: 20px;
+}
+
+.parameter-area {
+  margin-left: 40px;
+}
+
+.join-generate-btn {
+  margin-bottom: 10px;
+}
+
+.join-command {
+  background-color: #0f192a;
+  border-radius: 10px;
+  color: #d1edff;
+  margin-right: 30px;
+}
+
+.snap-input > input {
+  margin-bottom: 10px;
+  padding: 3px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.snap-input {
+  margin-bottom: 10px;
+}

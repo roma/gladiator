@@ -1,0 +1,30 @@
+<div id="version-confirm"></div> 
+
+<!-- version Check Modal -->
+<div class="modal fade" id="version-modal" tabindex="-1" role="dialog" aria-labelledby="versionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="versionModalLabel"> Your ROMA version is Not supported.</h4>
+      </div>
+      <div class="modal-body">
+        <ul>
+          <li>Gladiator will support only after ROMA <b>v1.0.0.</b><br>
+              But your ROMA version is <span class="current-version">v<%= flash[:unsupport] %></span>.</li>
+          <li>You can use Gladiator with after v0.8.11 narrowly.<br>
+              But some functions are restricted.</li>
+          <li>We strongly recommend to update ROMA.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        Continue to use Gladiator?
+        <form method="get" action="/cluster/index" style="display: inline">
+          <input type="submit" value="YES" class="btn btn-warning"/>
+        </form>
+        <form method="get" action="/login/logout" style="display: inline">
+          <input type="submit" value="NO" class="btn btn-default"/>
+        </form>
+      </div>
+    </div>
+  </div>
+</div><!-- End of repetition Check Modal -->

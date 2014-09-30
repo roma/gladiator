@@ -1,0 +1,51 @@
+<%= render 'login/modal' %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 grey-area">
+      <div id="login-contents">
+        <div class="col-xs-5" >
+          <div class="gladiator-explanation">
+            <div class="login-title">Gladiator</div>
+            <div class="login-subtitle">
+              <p>Intuitive operation.</p>
+              <p>Easy monitoring.</p>
+            </div>
+            <div class="login-explanation">
+              <div class="explanation-detail">
+                <p>Gladiator is a GUI contorl tool of ROMA.</p>
+                <p>Do you wanna manage ROMA more easily?<br>more viscerally?</p>
+                <p>Gladiator can satisfies it.</p>
+              </div>
+            </div>
+          </div> <!--gladiator-explanation-->
+        </div> <!--col-xs-5-->
+
+        <div class="col-xs-7">
+          <%= image_tag("colloseum.png", :id => "login-background") %>
+          <div class="login-form-area">
+            <%= form_tag :action => 'auth' do %>
+              <div class="field">
+                <%= text_field_tag(:username, '', { :placeholder =>'username', :size => 30 }) %>
+              </div>
+              <div class="field">
+                <%= password_field_tag(:password, '', { :placeholder => 'password', :size => 30 }) %>
+              </div>
+              <% if flash[:referer] %>
+                <%= hidden_field_tag :referer, flash[:referer] %>
+              <% end %>
+              <button class="btn btn-success">
+                Login to Gladiator
+              </button>
+            <% end %>
+            <% if flash[:login_error] %>
+              <br>
+              <span class="login-error"><%= flash[:login_error] %></span>
+            <% end %>
+          </div> <!-- login-form-area -->
+        </div> <!-- col-xs-7 -->
+      </div> <!--login-contents"-->
+    </div> <!--class="col-xs-12" id="grey-area" -->
+  </div> <!--row-->
+</div> <!--container -->
+

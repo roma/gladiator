@@ -1,0 +1,86 @@
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+<div class="main-contents-name">Status</div>
+<div class="sub-contents-name">
+  Dynamic Change Setting
+</div>
+<div class="edit-config-name">
+  <span class="small-contents-name">Selected Parameter</span>: <%= @key %>
+</div>
+<div class="edit-explanation">
+  <div class="small-contents-name">Explanation:</div>
+  <div class="edit-explanation-detail">
+    <%= explanation(@key).html_safe %>
+  </div>
+</div>
+
+<div class="edit-default-value">
+  <span class="small-contents-name">DEFAULT VALUE</span>: <%= default_value(@key).to_s %>
+</div>
+
+<div class="current-default-value">
+  <span class="small-contents-name">CURRENT VALUE</span>: <%= @current_value %>
+</div>
+
+<div class="edit-change-value col-xs-12">
+  <% if past_version?(@stats_hash) %>
+    <div class="restriction-panel">
+      <div class="restriction-msg">
+        You can Not use this function<br>in this ROMA version.
+      </div>
+    </div>
+  <% end %>
+
+  <span class="small-contents-name">CHANGE VALUE</span>:
+  <%= form_tag({ :controller => 'stat', :action => 'update' }, { :method => :put, :id => 'dynamic_change_value', :class => 'edit-form' }) do %>
+    <% if @key == "continuous_limit" %>
+      <% limit = @value.split(/:/) %>
+      <%= text_field_tag :continuous_start, limit[0].chomp, { :size => 1 } %> : 
+   	  <%= text_field_tag :continuous_rate,  limit[1].chomp, { :size => 1 } %> : 
+      <%= text_field_tag :continuous_full,  limit[2].chomp, { :size => 1 } %>
+    <% elsif @key == "sub_nid" %>
+      <table>
+        <tr><td>Target NetMask     </td><td> : <%= text_field_tag :sub_nid_netmask %></td><tr>
+        <tr><td>Substitution Target</td><td> : <%= text_field_tag :sub_nid_target  %></td><tr>
+        <tr><td>Substitution String</td><td> : <%= text_field_tag :sub_nid_string  %></td><tr>
+      </table>
+    <% elsif ary = change_list(@key) %> 
+      <%= select_tag "#{@key}", options_for_select(ary, :selected => @value.chomp) %>
+    <% else %>
+      <%= text_field_tag "#{@key}", @value, { :size => 25 } %>
+    <% end %>
+    <% if @roma.errors.any? %>
+      <% @roma.errors.full_messages.each do |msg| %>       
+        <span class="form-error-msg"><%= msg %></span>
+      <% end %>
+    <% end %>
+    <%= hidden_field_tag :key, @key %>
+
+    <div class="send-button">
+      <%= submit_tag " store ", { :class => "btn btn-info", :disabled=>past_version?(@stats_hash) }%>
+      <input type="reset" value=" reset " class="btn">
+    </div>
+  <% end %>
+  
+  <% if @res %>
+    <span class="small-contents-name">RESULT</span>:
+    <div class="edit-result">
+      <table class="table table-bordered result-table">
+      	<tr>
+      	  <th>Host_Port</th>
+      	  <th>Result</th>
+      	</tr>
+        <% @res.each{|k, v| %>
+          <tr>
+          	<td><%= k %></td>
+          	<% if v.index("STORED") || v.index("ENABLED") || v.index("ADDED") %> 
+            	<td class="success"><%= v %></td>
+          	<% else %> 
+            	<td class="danger"><%= v %></td>
+          	<% end %>
+          </tr>  
+        <% } %>  
+      </table>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,17 @@
+<!-- download Modal -->
+<div class="modal fade" id="download-modal" tabindex="-1" role="dialog" aria-labelledby="download-modal-label" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="download-modal-label">Please select format type.</h4>
+      </div>
+      <div class="modal-body">
+        <form action="download" method="get" style="display:inline">
+          <button type="submit" class="btn btn-primary close-modal" name="format" value="json">JSON</button>
+          <button type="submit" class="btn btn-primary close-modal" name="format" value="yaml">YAML</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div><!-- End of download Modal -->

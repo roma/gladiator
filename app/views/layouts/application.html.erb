@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Gladiator</title>
+  <%= include_gon %>
+  <%= stylesheet_link_tag "application", media: "all" %>
+  <%= stylesheet_link_tag controller.controller_name , media: "all" %>
+  <%= csrf_meta_tags %>
+  <%= favicon_link_tag 'favicon.ico' %>
+</head>
+
+<body>
+  <div id="wrap-without-footer">
+    <div id="header">
+      <div class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/cluster/index" >
+              <%= image_tag "Gladiator_logo.png", :size => '40x40' %>
+              <span class="header-title">GLADIATOR</span>
+              <span class="header-subtitle">-roma control-</span>
+            </a>
+          </div>
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <% if session[:username] %>
+                <li data-toggle="tooltip_navbar" title="Go to gravatar.com">
+                  <a href="https://gravatar.com/"><img class='glavatar' src=<%= get_gravatar_src(session[:email]) %>></a>
+                </li>
+                <li class='username'><%= session[:username] %> (<%= session[:user_type] %>_user) </li>
+                <li data-toggle="tooltip_navbar" title="Logout">
+                  <%= link_to image_tag('logout_icon.png', :size => "20x20"), "/login/logout", { :class => "logout-icon" } %>
+                  <%= link_to image_tag('logout_icon_pink.png', :size => "20x20"), "/login/logout", { :class => "logout-icon-pink" } %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div><!--header-->
+
+    <div class="wrap-main">
+      <% if login_check? %>
+        <div class="container">
+          <div class="row-fluid">
+            <div class="col-xs-3">
+              <div class="list-group side-bar">
+                <a href="/cluster/index" class="list-group-item">Cluster</a>
+                <a href="/stat/index"    class="list-group-item">Status/Configuration</a>
+                <a href="/routing/index" class="list-group-item">Routing</a>
+                <a href="/logs/index"    class="list-group-item">Logs</a>
+                <a href="/storage/index" class="list-group-item">Data Management</a>
+              </div>
+            </div><!--/col-xs-3-->
+            <div class="col-xs-9 param-detail-list">
+              <%= yield %>
+            </div><!--/col-xs-9-->
+          </div><!--/row-->
+        </div><!--/container-->
+
+      <% else %>
+        <%= yield %>
+      <% end %>
+    </div><!--wrap-main-->
+  </div><!--wrap-->
+
+  <div id="footer">
+    <div class="container">
+      <p>@ 2014 Roma Project / Sponsored by Rakuten, Inc. and Rakuten Institute of Technology</p>
+    </div>
+  </div><!-- /footer -->
+
+  <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag controller.controller_name %>
+</body>
+</html>

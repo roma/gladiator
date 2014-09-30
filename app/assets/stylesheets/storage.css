@@ -1,0 +1,115 @@
+.get-column, .set-column, .snapshot-column {
+  background-color: #f8d1d1;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.get-contents, .set-contents {
+  margin-left: 20px;
+}
+
+.get-input > input, .set-input > input, .port-input > .snapPort {
+  padding: 3px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.btn:hover {
+  background-color: #cacaca;
+}
+
+.btn-info:hover {
+  background-color: #0AB1E3;
+}
+
+.get-result, .set-result {
+  color: #1D86FE;
+  font-size: 20px;
+  padding-top: 20px;
+  width: 850px;
+  word-wrap:break-word;
+}
+
+#key-modal, #value-modal, #expt-modal {
+  width: 300px;
+  word-wrap:break-word;
+}
+
+.snap-command-area, .status-area {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.snap-explanation {
+  margin-top: 10px;
+}
+
+.snap-command {
+  background-color: #0f192a;
+  border-radius: 10px;
+  color: #d1edff;
+  font-size: 15px;
+}
+
+.snap-command-error {
+  color: red;
+  background-color: transparent;
+  font-size: 18px;
+}
+
+.snap-progress-area, .snapshot-date-area {
+  margin-left: 20px;
+}
+
+.status-area h5 {
+  text-decoration: underline;
+}
+
+#snapshotStatus {
+  color: #1D86FE;
+  font-size: 16px;
+}
+
+.port-input, #snapshotStatus, #snapshotProgress {
+  margin-left: 20px;
+}
+
+.table thead {
+  background-color: #cccccc;
+}
+
+.table-snapshot {
+  width: 270px;
+  white-space: nowrap;
+}
+
+.table-snapshot .storage-name-column {
+  width: 115px;
+}
+
+.table-snapshot tbody {
+  background-color: #ffffff;
+}
+
+.table-snapshot .status-column {
+  max-width: 115px;
+}
+
+#lastSnapshotDate {
+  margin-left: 20px;
+}
+
+/**---------------------------------------------
+  Past version support
+------------------------------------------------**/
+.restriction-msg-snapshot {
+  position: absolute;
+  top: 25%;
+}
+
+.restriction-msg-snapshot-status {
+  position: absolute;
+  top: 25%;
+  font-size:24px;
+}

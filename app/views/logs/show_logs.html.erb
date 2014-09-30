@@ -1,0 +1,49 @@
+<div class="main-contents-name">Log</div>
+
+<a href="update" type="button" class="btn btn-warning" id="logs-button">
+  <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
+  <span id="log-button-msg">Update Log</span>
+</a>
+
+<div class="small-contents-name">recent 100 lines are shown.</div>
+
+<!-- Nav tabs -->
+<div id="tabs">
+  <!-- Tabs header -->
+  <ul>
+    <% @raw_logs.each_key{|instance| %>
+      <li>
+        <a id="<%=compact_instance(instance)%>-tabs" href="#<%= compact_instance(instance) %>">
+          <%= instance %>
+        </a>
+      </li>
+    <% } %>
+  </ul>
+
+  <!-- Tabs body -->
+  <% @raw_logs.each{|instance, logs| %>
+    <div id=<%= compact_instance(instance) %> class="panel">
+      <table class="table tablesorter log-table">
+        <thead>
+          <tr>
+            <td>Date</td>
+            <td>LOG LEVEL</td>
+            <td>LOG</td>
+          </tr>
+        </thead>
+        <tbody>
+          <%
+          logs.each{|log|
+            log =~ /([T:.\d-]+)\W+\d+\W+(\w+)\W+(.+)/ %>
+            <tr>
+              <td nowrap><%= $1 %></td>
+              <td><span class="label label-<%=loglevel_colors($2)%>"><%= $2 %></span></td>
+              <td><%= $3 %></td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</div>
+

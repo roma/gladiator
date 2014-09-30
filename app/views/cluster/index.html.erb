@@ -1,0 +1,309 @@
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<%= render 'cluster/modal' %>
+
+<div class="main-contents-name">Cluster</div>
+
+<span class="sub-contents-name health-param">Health</span><span class="colon">:</span>
+<div class="health-button <%= health_btn_color(@stats_hash) %> large_size" style="display: inline-block;">
+  <span class="glare large"></span>
+</div>
+<button class="btn btn-warning" id="recover-button" data-toggle="modal" data-target="#recoverModal" <%= get_button_option("recover", @stats_hash, @routing_info)%>>
+  Recover
+</button>
+
+<ul class="error-message">
+  <% if chk_roma_version(@stats_hash['others']['version']) <= 2059 #v0.8.11 %>
+    <li class="status-caution restriction-health-button">
+      <span class="no-response-icon"><i class="icon-question-sign"></i></span>
+      Health button function is not supported ROMA v0.8.11.
+    </li>
+  <% end %>
+  
+  <% if short_vnodes?(@stats_hash) %>
+    <li class="status-caution">
+      <span id="short-vnodes-caution"><i class="icon-warning-sign"></i></span>
+        <!-- for past version -->
+        <% if !can_recover_end?(@stats_hash) %>
+          <span class="recover-restriction-msg">
+             Recover is not supported with this ROMA version and this lost_action setting.
+          </span>
+        <% else %>
+          ROMA have short vnodes. You can solve by executing "Recover" button.
+        <% end %>
+    </li>
+  <% end %>
+  
+  <% if lost_vnodes?(@stats_hash) %>
+    <li class="status-caution">
+      <span id="lost-vnodes-caution"><i class="icon-warning-sign"></i></span>
+      ROMA have lost vnodes. If you want to repair this, you should rollback routing file directly.
+    </li>
+  <% end %>
+  
+  <% if released_flg?(@routing_info) %>
+    <li class="status-caution">
+      <span id="lost-vnodes-caution"><i class="icon-warning-sign"></i></span>
+      You have to rbalse after finising release process.
+    </li>
+  <% end %>
+  
+  <% if flash[:error_message] %>
+    <li class="status-caution">
+      <span id="lost-vnodes-caution"><i class="icon-warning-sign"></i></span>
+      <%= flash[:error_message] %>
+    </li>
+  <% end %>
+  
+  <% if flash[:no_response] %>
+    <li class="status-caution">
+      <span class="no-response-icon"><i class="icon-question-sign"></i></span>
+      No response from <%= flash[:no_response] %>. Did you execute rbalse just now?<br>
+      <span class="require-reload-msg">In this case, please reload page after few seconds.</span>
+    </li>
+  <% end %>
+</ul>
+
+<table class="status-panel">
+  <tr>
+    <td class="panel-instance">
+      instance count
+      <div class="panel-value">
+        <%= @stats_hash["routing"]["nodes.length"] %><br>
+          <div class="error-instance-small">
+            <% @inactive_routing_list.each{|instance| %><li> <%= instance %> is down</li><% } %>
+          </div>
+      </div>
+    </td>
+    <td class="panel-server">
+      server count
+      <div class="panel-value">
+        <%= get_active_server_list.size %>
+      </div>
+    </td>
+    <td class="panel-roma-version">
+      ROMA version
+      <div class="panel-value">
+        <% if past_version?(@stats_hash) %>
+          <span id="short-vnodes-alert"><i class="icon-warning-sign"></i></span>
+        <% end %>
+        <%= @stats_hash["others"]["version"] %>
+        <ul class ="error-instance-small">
+          <% if past_version?(@stats_hash) %><li>Unsupport version</li><% end %>
+          <% if eosl_expired?(@stats_hash) %><li>EOSL expired</li><% end %>
+          <% @routing_info.each do |instance, info| %>
+            <% if chk_main_version(info["version"]) %>
+              <li class="version-diff-info"><%= "#{instance} using #{info["version"]}" %></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="panel-short-vnodes">
+      short vnodes
+      <div class="panel-value">
+        <% if short_vnodes?(@stats_hash) %>
+          <span id="short-vnodes-cnt"><%= @stats_hash["routing"]["short_vnodes"] %></span>
+          <span id="short-vnodes-alert"><i class="icon-warning-sign"></i></span>
+        <% else %>
+          <%= @stats_hash["routing"]["short_vnodes"] %>
+        <% end %>
+      </div>
+    </td>
+
+    <td class="panel-lost-vnodes">
+      lost vnodes
+      <div class="panel-value">
+      <% if @stats_hash["routing"]["lost_vnodes"].chomp == "0" %>
+        <%= @stats_hash["routing"]["lost_vnodes"] %>
+      <% else %>
+        <span id="lost-vnodes-char" ><%= @stats_hash["routing"]["lost_vnodes"] %></span>
+        <span id="lost-vnodes-alert"><i class="icon-warning-sign"></i></span>
+      <% end %>
+      </div>
+    </td>
+ 
+    <td class="panel-gladiator-version">
+      Gladiator version
+      <div class="panel-value"><%= Constants::VERSION %></div>
+    </td>
+  </tr>
+</table>
+
+<% if ex_process = extra_process_chk(@routing_info) %>
+  <% case ex_process %>
+  <% when "recover" %>
+    <div class="extra-process" id="extra-process-recover">
+  <% when "release" %>
+    <div class="extra-process" id="extra-process-release">
+  <% when "join" %>
+    <div class="extra-process" id="extra-process-join">
+  <% end %>
+    <div class="sub-contents-name">Executing process</div>
+    <div class="extra-pbar">
+      <p><%= ex_process %> is being executed</p>
+      <div class="progress progress-striped active">
+        <div id="extra-progress-bar" class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+          <span id="extra-bar-rate">Now executing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="instances-information">
+  <button class="reset-filter btn btn-primary">Reset Filter</button>
+  <div class="instance-table">
+    <table class="table table-bordered result-table tablesorter cluster-table">
+      <thead>
+        <tr>
+          <th rowspan="2">No.</th>
+          <th rowspan="2">Cluster Name</th>
+          <th rowspan="2" data-placeholder="">Status</th>
+          <% unless memory_mode?(@stats_hash) %>
+            <th rowspan="2">Data rate</th>
+            <th rowspan="2" class="datasize-column">Data size</th>
+          <% end %>
+          <th colspan="2">vnodes count</th>
+          <% if session[:user_type] == 'root' %>
+            <th rowspan="2" class="button-column">&nbsp;</th>
+          <% end %>
+        </tr>
+        <tr>
+          <th class="vnodes-column">Primary</th>
+          <th class="vnodes-column">Secondary</th>
+        </tr>
+      </thead>
+      <tbody class="table-contents">
+        <% 
+        index = 0
+        @routing_info.each do |(instance, info)|
+          if info["status"] == "active" || chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
+            <tr>
+          <% elsif info["status"] =~ /inactive|no_response/ %>
+            <tr class="active">
+          <% elsif info["status"] =~ /recover|join|release/ %>
+            <tr class="warning">
+          <% end %>
+            <!-- instance No. -->
+            <td><%= index += 1 %></td>
+
+            <!-- instance name -->
+            <td style="text-align: left"><%= instance %></td>
+
+            <!-- instance status -->
+              <td class="instance-status-column"> 
+                <% if info["status"] == "inactive" %>
+                  <div class="health-button grey small_size" style="display: inline-block;"></div>
+                  <%= info["status"] %>
+                <% elsif info["status"] == "no_response" %>
+                  <span class="no-response-icon"><i class="icon-question-sign"></i></span>
+                  <%= info["status"] %>
+                <% elsif chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
+                  <span class="no-response-icon"><i class="icon-question-sign"></i></span>
+                  unsupported
+                <% elsif info["status"] == "active" %>
+                  <div class="health-button green small_size" style="display: inline-block;"></div>
+                  <%= info["status"] %>
+                <% else %>
+                  <div class="health-button yellow small_size" style="display: inline-block;"></div>
+                  <%= info["status"] %>
+                <% end %>
+              </td>
+
+            <% unless memory_mode?(@stats_hash) %>
+              <!-- Data rate -->
+              <td class="progress-bar-column">
+                <% if is_active?(info["status"]) %>
+                  <div class="progress progress-striped active" >
+                    <span class="progress-bar"  role="progressbar" aria-valuenow="<%= current_size_rate(info["size"]) %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= current_size_rate(info["size"]) %>%">
+                       <% if current_size_rate(info["size"]) >= 30.0 %>
+                         <%= current_size_rate(info["size"]) %> %
+                       <% end %>
+                    </span>
+                    <span class="rate-count">
+                    <% if current_size_rate(info["size"]) < 30.0 %>
+                      (<%= current_size_rate(info["size"]) %> %)
+                    <% end %>
+                    <span>
+                  </div>
+                <% end %>
+              </td>
+
+              <!-- Data size -->
+              <td nowrap>
+                <%if is_active?(info["status"]) %><%= instance_size(info["size"]) %> MB<% end %>
+              </td>
+            <% end %>
+
+            <!-- vnodes count -->
+            <% instance_name = instance.gsub(/[^0-9]/,"") %>
+            <!-- Primary nodes -->
+            <td>
+              <span id="primary-nodes-<%= instance.gsub(/[^0-9]/,"") %>">
+                <%= info["primary_nodes"] %>
+              </span>
+            </td>
+            <!-- Secondary nodes-->
+            <td>
+              <span id="secondary-nodes-<%= instance.gsub(/[^0-9]/,"") %>">
+                <%= info["secondary_nodes"] %>
+              </span>
+            </td>
+
+            <!-- release/rbalse button(for root user) -->
+            <% if session[:user_type] == 'root' %>
+              <td class="button-column" nowrap>
+                <% if is_active?(info["status"]) %>
+                  <!-- Release button -->
+                  <button class="btn btn-info" name=<%= instance %> data-toggle="modal" data-target="#release-modal" <%= get_button_option("release", @stats_hash, @routing_info, instance)%>>
+                    Release
+                  </button>
+
+                  <!-- rbalse button -->
+                  <button class="btn btn-warning" name=<%= instance %> data-toggle="modal" data-target="#rbalse-modal" <%= get_button_option("rbalse", nil, @routing_info, instance)%>>
+                    rbalse
+                  </button>
+                <% end %>
+              </td>
+            <% end %>
+          <tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="join-command-generate">
+  <div class="sub-contents-name join-command-title">
+    Join Command Generater
+    <span class="accordion-status"><i class="icon-chevron-right"></i></span>
+  </div>
+    
+  <dd>
+    <div class="parameter-area">
+      <div class="snap-input">
+        <%= text_field_tag :new_host, nil, {:placeholder=>"New instance's host.", :id=>"newHost", :size=>"25"} %>
+        :new instance's IP address(or Host name).
+        <div class="newHost"></div>
+        <%= text_field_tag :new_port, nil, {:placeholder=>"New instance's Port No.", :id=>"newPort", :size=>"25"} %>
+        :new instance's port No.
+        <div class="newPort"></div>
+        <%= text_field_tag :config_path, @stats_hash['stats']['config_path'], {:placeholder=>"config file's path", :id=>"configPath", :size=>"50"} %>
+        :new instance's [config.rb]'s PATH.
+        <div class="configPath"></div>
+        <%= check_box :repetition, nil, {:id=>'repetitionCheck'}, checked_value = "a", unchecked_value = "b" %>
+        : Use "--enabled_repeathost" option?
+
+        <%= hidden_field_tag :current_host, $baseHost, {:id=>"currentHost"} %>
+        <%= hidden_field_tag :current_port,  $basePort, {:id=>"currentPort"} %>
+      </div>
+      <%= submit_tag " Generate ", { :class => "btn join-generate-btn allow_submit" }%>
+  
+      <div class="join-explanation"></div>
+      <div class="join-command"></div>
+    </div>
+  </dd>
+</div>

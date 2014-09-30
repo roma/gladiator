@@ -1,0 +1,113 @@
+.routing-information {
+  background-color: #F8D1D1;
+}
+
+/**-----------------------------
+  Routing Lists
+-------------------------------- **/
+.routing-nodes {
+  background-color: #FFA8A8;
+  border-style: solid;
+  border-width: 10px;
+  border-color: #F8D1D1;
+}
+
+.routing-nodes-list {
+  margin-left: 15px;
+  font-family: 'Arial';
+  list-style: none;
+}
+
+/**-----------------------------
+  Routing Optios
+-------------------------------- **/
+.routing-options {
+  background-color: #FFA8A8;
+  border-style: solid;
+  border-width: 10px;
+  border-color: #F8D1D1;
+}
+
+.routing-options-list {
+  margin-left: 30px;
+}
+
+.routing-options-list li {
+  color:#5d5d5d;
+  font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+li.list-group-item {
+  padding: 5px;
+}
+
+li.list-striped {
+  background-color: #F8D1D1;
+}
+
+.repetition-error-message {
+  color: red;
+  margin-left: 15px;
+}
+
+
+/**-----------------------------
+  Download
+-------------------------------- **/
+.download-button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.modal-body {
+  text-align: center;
+}
+
+.modal-body button {
+  margin: 0 10px;
+}
+
+/**-----------------------------
+  Routing Hisotry
+-------------------------------- **/
+.download-dump {
+  background-color: #5BE75B;
+  border-style: none;
+}
+
+.routing-history {
+  background-color: #F8D1D1;
+  position: relative;
+  top: 20px;
+}
+
+.routing-history-table {
+  margin-bottom: 15px;
+}
+
+.history-table-title th{
+  background-color: #cccccc;
+}
+
+.leave-column td{
+  background-color: #fdfaec;
+}
+
+.join-column td{
+  background-color: #e9f5fb;
+}
+
+.noevent {
+  background-color: #ffffff;
+  color: #808080;
+  text-align: center;
+}
+
+/**---------------------------------------------
+  Past version support
+------------------------------------------------**/
+.restriction-msg-repetition {
+  position: absolute;
+  top: 10%;
+  font-size: 16px;
+}

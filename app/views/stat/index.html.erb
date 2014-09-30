@@ -1,0 +1,54 @@
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+<div class="status-title">
+  <span class="status-contents-name">Status</span>
+  <button type="button" class="btn btn-default btn-lg reload-btn">
+    <i class="icon-refresh"></i>
+  </button>
+</div>
+
+<dl>
+  <% Constants::STATS_COL_NAME.each{|name| %>
+  <dt class="<%=name.gsub(/\[\w+\]/, "")%>">
+    <%= name.capitalize %>
+    <span class="accordion-status-<%=name.gsub(/\[\w+\]/, "")%>"><i class="icon-chevron-right"></i></span>
+  </dt>
+  <dd>
+    <table class="table">
+      <tbody>
+        <% if @stats_hash[name].size == 0 %>
+          <tr class="no-data-col"><td colspan="2">No Data</td></tr>
+        <% end %>
+
+        <% @stats_hash[name].each{|k,v|
+          next if check_skip_columns(k, @stats_hash)
+
+          # for storage option
+          if /bnum=(\d+)#xmsiz=(\d+)#opts=([a-z])#dfunit=(\d+)/ =~ v %>
+            <tr><td><a href="#" data-toggle="tooltip" title="<%= explanation k %>" class="stats-str"><%= k %></a></td><td></td></tr>
+            <tr><td class="storage-option">bnum  </td><td><%= $1 %></td></tr>
+            <tr><td class="storage-option">xmsiz </td><td><%= $2 %></td></tr>
+            <tr><td class="storage-option">opts  </td><td><%= $3 %></td></tr>
+            <tr><td class="storage-option">dfunit</td><td><%= $4 %></td></tr>
+          <% next; end %>
+          <tr <% if v.chomp == "false" %>class="not-change-col"<% end %>>
+            <td valign="top" class="stats-column">
+              <% if default_value(k) != nil; %>
+                <span data-no-turbolink="1" data-toggle="tooltip" title="<%= explanation k %>" class="stats-str stats-str-editable"><%= k %></span>
+                <%= link_to(
+                      sanitize("<button class='btn edit-btn'>Edit</button>", :tags => %w(button)),
+                      {:controller => "stat", :action => "edit", :key => k, :value => v}
+                    )
+                %>
+              <% else %>
+                <div data-no-turbolink="1" data-toggle="tooltip" title="<%= explanation k %>" class="stats-str"><%= k %></div>
+              <% end %>  
+            </td>
+            <td valign="top"><div class="stats-value"><%= v %></div></td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table> 
+  </dd>
+  <% } %>
+</dl>
