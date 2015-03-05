@@ -277,22 +277,19 @@ class Roma
     return raw_logs
   end
 
-
   def start_gather_logs_by_date(start_time, end_time, logs_sleep_time ,host, port)
     @logs_sleep_time = logs_sleep_time
 
-    #raise "Unexpected type" if line_count.to_s !~ /^[1-9]\d*$/
     if start_time !~ /^(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)$/ || end_time !~ /^(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)$/
-      rais "Unexpected type"
+      raise "Unexpected type"
     end
 
     send_command("gather_logs #{start_time} #{end_time}", "STARTED", host, port)
   end
 
-  def get_all_logs_by_date(active_routing_list)
+  def get_all_logs_by_date(active_routing_list, start_time, end_time)
     active_routing_list.each{|instance|
-      #self.start_gather_logs_by_date(100, 5, instance.split("_")[0], instance.split("_")[1])
-      self.start_gather_logs_by_date('2014-01-01T00:00:00', '2016-01-01T00:00:00',  5, instance.split("_")[0], instance.split("_")[1])
+      self.start_gather_logs_by_date(start_time, end_time, 5, instance.split("_")[0], instance.split("_")[1])
     }
 
     sleep @logs_sleep_time # wait for finishing gathering
@@ -305,9 +302,6 @@ class Roma
 
     return raw_logs
   end
-
-
-
 
   def send_command(command, eof = "END", host = @host, port = @port)
     nid ="#{host}_#{port}"

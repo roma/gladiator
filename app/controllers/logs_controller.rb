@@ -2,6 +2,9 @@ class LogsController < ApplicationController
   def index
     session[:referer] = nil
     @stats_hash = Roma.new.get_stats
+    time = Time.now
+    @default_start_time = (time - 7*24*60*60).strftime("%Y-%m-%dT%H:%M:%S")
+    @current_time = time.strftime("%Y-%m-%dT%H:%M:%S")
   end
 
   def show_logs
@@ -17,7 +20,8 @@ class LogsController < ApplicationController
       if @stats_hash["others"]["version"] == "1.0.0"
         @raw_logs = roma.get_all_logs(active_routing_list)
       else
-        logs_hash = roma.get_all_logs_by_date(active_routing_list)
+        #logs_hash = roma.get_all_logs_by_date(active_routing_list)
+        logs_hash = roma.get_all_logs_by_date(active_routing_list, view_context.add_00sec(params[:start_date]), view_context.add_00sec(params[:end_date]))
         @gathered_time
         logs_hash.each{|instance, logs_array|
           @gathered_time = logs_hash[instance].shift
