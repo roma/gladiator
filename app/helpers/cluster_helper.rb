@@ -70,7 +70,7 @@ module ClusterHelper
   end
 
   def can_recover_end?(stats_hash)
-      if stats_hash['routing']['lost_action'] != 'auto_assign' && chk_roma_version(stats_hash['others']['version']) < 655356 && stats_hash['stats']['enabled_repetition_host_in_routing'] == 'false'
+      if stats_hash['routing']['lost_action'] != 'auto_assign' && chk_roma_version(stats_hash['others']['version']) < 65536 && stats_hash['stats']['enabled_repetition_host_in_routing'] == 'false'
         return false
       end
 

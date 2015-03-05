@@ -16,7 +16,7 @@ $(window).load(function() {
         //Table sorter
         $('table.log-table').tablesorter({
             theme: 'default',
-            sortList: [[0,0]],
+            sortList: [[0,1]],
             widthFixed: true,
             widgets: ["filter"], 
             headers: {0: { filter: false }},

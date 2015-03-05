@@ -5,7 +5,14 @@
   <span id="log-button-msg">Update Log</span>
 </a>
 
-<div class="small-contents-name">recent 100 lines are shown.</div>
+<div class="small-contents-name">
+<% unless @gathered_time %>
+  recent 100 lines are shown.
+<% else %>
+  <%= "log were gathered on #{@gathered_time}" %>.
+<% end %>
+</div>
+
 
 <!-- Nav tabs -->
 <div id="tabs">

@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def past_version?(stats_hash)
-    if chk_roma_version(stats_hash['others']['version']) < 65536
+    if chk_roma_version(stats_hash['others']['version']) < 65536 #1.0.0
       return true
     else
       return false
@@ -9,7 +9,7 @@ module ApplicationHelper
   end
 
   def eosl_expired?(stats_hash)
-    if chk_roma_version(stats_hash['others']['version']) < 2061
+    if chk_roma_version(stats_hash['others']['version']) < 2062 #0.8.13
       return true
     else
       return false

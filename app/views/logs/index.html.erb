@@ -7,7 +7,12 @@
       </div>
     </div>
     <button class="btn btn-info" disabled>Get Logs</button>
-  <% else %>
+  <% elsif @stats_hash['others']['version'] == '1.1.0' %>
+    <a href="show_logs" type="button" class="btn btn-info" id="logs-button">
+      <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
+      <span id="log-button-msg">Get Logs</span>
+    </a>
+  <% else # after v1.1.0 %>
     <a href="show_logs" type="button" class="btn btn-info" id="logs-button">
       <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
       <span id="log-button-msg">Get Logs</span>
