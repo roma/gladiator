@@ -162,7 +162,7 @@
           <th rowspan="2">No.</th>
           <th rowspan="2">Cluster Name</th>
           <th rowspan="2" data-placeholder="">Status</th>
-          <% unless memory_mode?(@stats_hash) %>
+          <% if storage_type_is_tc?(@stats_hash) %>
             <th rowspan="2">Data rate</th>
             <th rowspan="2" class="datasize-column">Data size</th>
           <% end %>
@@ -213,7 +213,7 @@
                 <% end %>
               </td>
 
-            <% unless memory_mode?(@stats_hash) %>
+            <% if storage_type_is_tc?(@stats_hash) %>
               <!-- Data rate -->
               <td class="progress-bar-column">
                 <% if is_active?(info["status"]) %>

@@ -38,7 +38,7 @@
 <% end %>
 
 <!-- Snapshot -->
-<% unless memory_mode?(@stats_hash) %>
+<% if storage_type_is_tc?(@stats_hash) %>
   <div class="col-xs-12 snapshot-column">
     <% unless can_i_use_snapshot?(@stats_hash) %>
       <div class="restriction-panel">

@@ -32,5 +32,13 @@ module ApplicationHelper
       return false
     end
   end
+
+  def storage_type_is_tc?(stats_hash)
+    if stats_hash['storages[roma]']['storage.st_class'] == 'TCStorage'
+      return true
+    else
+      return false
+    end
+  end
  
 end
