@@ -14,7 +14,8 @@ $(window).load(function() {
         $("#"+gon.routing_list[0]+"-tabs:eq(0)").trigger('click');
   
         //Table sorter
-        $('table.log-table').tablesorter({
+        $('table.log-table')
+        .tablesorter({
             theme: 'default',
             sortList: [[0,1]],
             widthFixed: true,
@@ -27,6 +28,11 @@ $(window).load(function() {
                   1 : true
                 }
             } 
+        })
+        .tablesorterPager({
+            container: $("#pager"),
+            size: 30,
+            positionFixed: false
         });
     }
 

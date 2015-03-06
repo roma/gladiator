@@ -27,10 +27,28 @@
     <% } %>
   </ul>
 
+  <!-- Pager slider --> 
+  <div id="pager" class="pager">
+    <form>
+      <%= image_tag('arrow_back_end.png', :size => "17x17", :class => "first") %>
+      <%= image_tag('arrow_back.png', :size => "17x17", :class => "prev") %>
+      <input type="text" class="pagedisplay"/>
+      <%= image_tag('arrow_next.png', :size => "17x17", :class => "next") %>
+      <%= image_tag('arrow_next_end.png', :size => "17x17", :class => "last") %>
+      <select class="pagesize">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option selected="selected" value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+      </select>
+    </form>
+  </div>
+
   <!-- Tabs body -->
   <% @raw_logs.each{|instance, logs| %>
     <div id=<%= compact_instance(instance) %> class="panel">
-      <table class="table tablesorter log-table">
+      <table class="table tablesorter log-table ts-pager">
         <thead>
           <tr>
             <td>Date</td>
