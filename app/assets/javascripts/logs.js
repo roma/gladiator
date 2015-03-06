@@ -30,11 +30,21 @@ $(window).load(function() {
         });
     }
 
+    //for v1.0.0
     $("#logs-button").click(function() {
         $(".access-loader").css({"display":"inline"});
         $("#log-button-msg").text("gathering log data");
         $("#logs-button").css({"background-color":"#222222", "border-color":"#222222"});
         $("#logs-button").attr('disabled', true);
+    });
+
+    //for after v1.1.0
+    $("#get-logs-button").click(function() {
+        $(".access-loader").css({"display":"inline"});
+        $(this).val("gathering log data");
+        $(this).css({"background-color":"grey", "border-color":"grey"});
+        $(this).attr('disabled', true);
+        $(this).closest('form').submit(); //for chrome
     });
 
 })
