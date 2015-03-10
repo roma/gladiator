@@ -22,6 +22,7 @@ $(window).load(function() {
             widgets: ["filter"], 
             headers: {0: { filter: false }},
             widgetOptions : { 
+                pager_removeRows : false, 
                 filter_reset : 'button.reset-filter',
                 filter_cssFilter : 'tablesorter-filter', 
                 filter_functions : {
@@ -32,6 +33,7 @@ $(window).load(function() {
         .tablesorterPager({
             container: $("#pager"),
             size: 30,
+            removeRows: false,
             positionFixed: false
         });
     }

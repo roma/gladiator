@@ -289,7 +289,7 @@ class Roma
 
   def get_all_logs_by_date(active_routing_list, start_time, end_time)
     active_routing_list.each{|instance|
-      self.start_gather_logs_by_date(start_time, end_time, 5, instance.split("_")[0], instance.split("_")[1])
+      self.start_gather_logs_by_date(start_time, end_time, 3, instance.split("_")[0], instance.split("_")[1])
     }
 
     sleep @logs_sleep_time # wait for finishing gathering

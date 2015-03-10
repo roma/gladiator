@@ -1,16 +1,22 @@
 <div class="main-contents-name">Log</div>
 
-<a href="update" type="button" class="btn btn-warning" id="logs-button">
-  <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
-  <span id="log-button-msg">Update Log</span>
-</a>
+<% if @stats_hash['routing']['min=version'].to_i < 65792 #v1.1.0 %>
+  <a href="update" type="button" class="btn btn-warning" id="logs-button">
+    <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
+    <span id="log-button-msg">Update Log</span>
+  </a>
+<% else # after v1.1.0 %>
+<% end %>
+
+
+
 
 <div class="small-contents-name">
-<% unless @gathered_time %>
-  recent 100 lines are shown.
-<% else %>
-  <%= "log were gathered on #{@gathered_time}" %>.
-<% end %>
+  <% unless @gathered_time %>
+    recent 100 lines are shown.
+  <% else %>
+    <%= "log were gathered at #{@gathered_time}" %>.
+  <% end %>
 </div>
 
 
@@ -41,6 +47,8 @@
         <option selected="selected" value="30">30</option>
         <option value="40">40</option>
         <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="1000">1000</option>
       </select>
     </form>
   </div>
