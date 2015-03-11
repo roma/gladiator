@@ -1,0 +1,49 @@
+$(window).load(function() {
+
+    //if (gon.routing_list) {
+    //    //Tabs
+    //    jQuery.each(gon.routing_list, function() {
+    //        $("#"+this+"-tabs").click(function(){
+    //            $("#tabs li").removeClass("active");
+    //            $(this).parent().addClass("active");
+    //            $("#tabs .panel").hide();
+    //            $(this.hash).fadeIn();
+    //            return false;
+    //        });
+    //    });
+    //    $("#"+gon.routing_list[0]+"-tabs:eq(0)").trigger('click');
+  
+    //    //Table sorter
+    //    $('table.log-table')
+    //    .tablesorter({
+    //        theme: 'default',
+    //        sortList: [[0,1]],
+    //        widthFixed: true,
+    //        widgets: ["filter"], 
+    //        headers: {0: { filter: false }},
+    //        widgetOptions : { 
+    //            pager_removeRows : false, 
+    //            filter_reset : 'button.reset-filter',
+    //            filter_cssFilter : 'tablesorter-filter', 
+    //            filter_functions : {
+    //              1 : true
+    //            }
+    //        } 
+    //    })
+    //    .tablesorterPager({
+    //        container: $("#pager"),
+    //        size: 30,
+    //        removeRows: false,
+    //        positionFixed: false
+    //    });
+    //}
+})
+
+$("#make-glaph-button").click(function() {
+    $(".access-loader").css({"display":"inline"});
+    $(this).val("making glaph...");
+    $(this).css({"background-color":"grey", "border-color":"grey"});
+    $(this).attr('disabled', true);
+    $(this).closest('form').submit(); //for chrome
+});
+
