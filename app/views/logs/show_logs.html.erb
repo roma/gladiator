@@ -35,22 +35,23 @@
 
   <!-- Pager slider --> 
   <div id="pager" class="pager">
-    <form>
-      <%= image_tag('arrow_back_end.png', :size => "17x17", :class => "first") %>
-      <%= image_tag('arrow_back.png', :size => "17x17", :class => "prev") %>
-      <input type="text" class="pagedisplay"/>
-      <%= image_tag('arrow_next.png', :size => "17x17", :class => "next") %>
-      <%= image_tag('arrow_next_end.png', :size => "17x17", :class => "last") %>
-      <select class="pagesize">
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option selected="selected" value="30">30</option>
-        <option value="40">40</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
+    <%= image_tag('arrow_back_end.png', :size => "17x17", :class => "first") %>
+    <%= image_tag('arrow_back.png', :size => "17x17", :class => "prev") %>
+    <span class="pagedisplay" value=""/>
+    <input type="text" class="pagedisplay"/>
+    <%= image_tag('arrow_next.png', :size => "17x17", :class => "next") %>
+    <%= image_tag('arrow_next_end.png', :size => "17x17", :class => "last") %>
+    <select class="pagesize">
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option selected="selected" value="30">30</option>
+      <option value="40">40</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <% unless @stats_hash['routing']['min_version'].to_i < 65792 #v1.1.0 %>
         <option value="1000">1000</option>
-      </select>
-    </form>
+      <% end %>
+    </select>
   </div>
 
   <!-- Tabs body -->
