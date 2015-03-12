@@ -14,6 +14,9 @@
 //= require jquery.tablesorter.js
 //= require jquery.tablesorter.widgets.js
 //= require jquery.tablesorter.pager.js
+//= require raphael-min.js
+//= require elycharts.min.js
+//= require dygraph-combined-dev.js
 //= require bootstrap
 //= require validate
 //= require jquery.validate

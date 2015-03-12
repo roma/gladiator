@@ -5,6 +5,7 @@ class ConnectionController < ApplicationController
     time = Time.now
     @default_start_time = (time - 7*24*60*60).strftime("%Y-%m-%dT%H:%M:%S")
     @current_time = time.strftime("%Y-%m-%dT%H:%M:%S")
+    #gon.test_csv = view_context.extract_conn_count("aa")
   end
 
   def show
@@ -22,10 +23,10 @@ class ConnectionController < ApplicationController
     #  else # after v1.1.0
         logs_hash = roma.get_all_logs_by_date(active_routing_list, view_context.add_00sec(params[:start_date]), view_context.add_00sec(params[:end_date]))
 
-    conn_count_data  = view_context.extract_conn_count(logs_hash)
-    conn_source_data = view_context.extract_conn_source(logs_hash)
+    @conn_count_data  = view_context.extract_conn_count(logs_hash)
+    @conn_source_data = view_context.extract_conn_source(logs_hash)
 
-    render :text => logs_hash
+    #render :text => @conn_count_data
     #    @gathered_time
     #    logs_hash.each{|instance, logs_array|
     #      @gathered_time = logs_hash[instance].shift
