@@ -9,9 +9,7 @@ module ConnectionHelper
         end
       }
     }
-
     m_array = merge_connection_count(target_log)
-
     m_array.each_with_index{|array, index|
       m_array[index] = "#{array.join(",")}"
     }
@@ -19,9 +17,21 @@ module ConnectionHelper
     return m_array.join("\n") #csv
   end
 
-
   def extract_conn_source(hash)
+    target_log = {}
+    hash.each{|instance, logs|
+      logs.each{|log|
+        if log =~ /^I, \[[-\d]+T[\d:]+\.\d+\s#\d+\]\s+INFO -- : Connected from ([\d.]+):[\d.]+\sI have \d+ connections.$/
+          if target_log.has_key?($1)
+            target_log[$1] += 1
+          else
+            target_log[$1] = 1
+          end
+        end
+      }
+    }
 
+    return target_log #array
   end
 
   private
