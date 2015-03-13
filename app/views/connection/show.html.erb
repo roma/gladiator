@@ -1,56 +1,19 @@
 <div class="main-contents-name">Connection Glaph</div>
+
+<div class="col-xs-12">
 <% if false %>
-<% @conn_count_data.each{|instance, logs| %>
-  <%= "#{instance}" %> 
-  <br>
-  <% logs.each{|time, count| %>
-    <%= "\t#{time} => #{count}" %>
-    <br>
-  <% } %>
-    <br>
-  <% }
-%>
-<% @conn_count_data.each{|time, count| %>
-    <%= "\t#{time} => #{count}" %>
-    <br>
-  <% }
-%>
+  <%= @conn_count_data.class %>
+  <% @conn_count_data.each{|data| %>
+      <%= "#{data}" %>
+      <br>
+    <% }
+  %>
 <% end %>
-<% @conn_count_data.each{|data| %>
-    <%= "#{data}" %>
-    <br>
-  <% }
-%>
-
-<script src="http://ccchart.com/js/ccchart.js" charset="utf-8"></script>
-<canvas id="hoge"></canvas>
-<script>
-var chartdata6 = {
-
-  "config": {
-    "title": "Bezier Chart2",
-    "subTitle": "Canvasを使った普通な感じのベジェラインチャートです",
-    "type": "bezi2",
-    "xScaleXOffset": 4,
-    "colorSet": 
-          ["#666","#aaa","#ccc"],
-    "bgGradient": {
-            "direction":"vertical",
-            "from":"#222",
-            "to":"#687478"
-          }
-  },
-
-  "data": [
-    ["月",1,2,3,4,5,6,7,8,9,10,11,12],
-    ["コーヒー",52,,,,60,55,,80,64,41,57,78],
-    ["ジュース",30,45,56,,80,,76,90,75,52,57,55],
-    ["ウーロン",20,23,12,20,42,,72,63,30,20,32,50]
-  ]
-};
-ccchart.init('hoge', chartdata6)
-</script>
-
-
+</div>
+<div class="col-xs-12">
+<!-- connection count(line chart) -->
+<div class="col-xs-12">
+  <div id="graphdiv2" style="width:500px; height:300px;"></div>
+</div>
 </div>
 
