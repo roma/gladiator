@@ -5,7 +5,7 @@ class ConnectionController < ApplicationController
     time = Time.now
     @default_start_time = (time - 7*24*60*60).strftime("%Y-%m-%dT%H:%M:%S")
     @current_time = time.strftime("%Y-%m-%dT%H:%M:%S")
-    #gon.test_csv = view_context.extract_conn_count("aa")
+    gon.test_csv = view_context.debug
   end
 
   def show

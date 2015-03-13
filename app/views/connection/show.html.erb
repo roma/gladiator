@@ -1,4 +1,5 @@
 <div class="main-contents-name">Connection Glaph</div>
+<% if false %>
 <% @conn_count_data.each{|instance, logs| %>
   <%= "#{instance}" %> 
   <br>
@@ -6,6 +7,17 @@
     <%= "\t#{time} => #{count}" %>
     <br>
   <% } %>
+    <br>
+  <% }
+%>
+<% @conn_count_data.each{|time, count| %>
+    <%= "\t#{time} => #{count}" %>
+    <br>
+  <% }
+%>
+<% end %>
+<% @conn_count_data.each{|data| %>
+    <%= "#{data}" %>
     <br>
   <% }
 %>

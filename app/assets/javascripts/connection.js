@@ -85,6 +85,68 @@ $("#chart1").chart({
 
   //);
 
+
+      //document.getElementById("csv1").textContent =
+      //    "X,A,B\n" +
+      //    "1,,3\n" +
+      //    "2,2,\n" +
+      //    "3,,7\n" +
+      //    "4,6,\n" +
+      //    "5,,5\n" +
+      //    "6,4,";
+
+      //document.getElementById("native1").textContent =
+      //    "[\n" +
+      //    "  [1, null, 3],\n" +
+      //    "  [2, 2, null],\n" +
+      //    "  [3, null, 7],\n" +
+      //    "  [4, 6, null],\n" +
+      //    "  [5, null, 5],\n" +
+      //    "  [6, 4, null]\n" +
+      //    "]";
+
+      new Dygraph(
+        document.getElementById('graph'),
+        [
+          [1, null, 3],
+          [2, 2, null],
+          [3, null, 7],
+          [4, 5, null],
+          [5, null, 5],
+          [6, 3, null]
+        ],
+        {
+          labels: ['x', 'A', 'B' ],
+          connectSeparatedPoints: true,
+          drawPoints: true
+        }
+      );
+
+    new Dygraph(
+      document.getElementById('graph2'),
+      'x,A,B  \n' +
+      '1,,3   \n' +
+      '2,2,   \n' +
+      '3,,5   \n' +
+      '4,4,   \n' +
+      '5,,7   \n' +
+      '6,NaN, \n' +
+      '8,8,   \n' +
+      '10,10, \n',
+      {
+        labels: ['x', 'A', 'B' ],
+        connectSeparatedPoints: true,
+        drawPoints: true
+      }
+    );
+
+
+
+
+
+
+
+
 //g = new Dygraph(
 //
 //    // containing div
@@ -101,19 +163,31 @@ $("#chart1").chart({
 g2 = new Dygraph(
     document.getElementById("graphdiv2"),
 
-    //gon.test_csv, 
+    gon.test_csv, 
 
-    "Date,High,Low\n"+
-    "2007-01-01T00:00:00,62,9\n"+
-    "2007-01-01T01:00:00,62,38\n"+
-    "2007-01-01T02:00:00,NaN,7\n"+
-    "2007-01-01T03:00:00,5,7\n"+
-    "2007-01-01T04:00:00,6,35\n"+
-    "2007-01-01T05:00:00,67,3\n",
+    //"Date,High,Low\n"+
+    //"2007-01-01T00:00:00,62,9\n"+
+    //"2007-01-01T01:00:00,null,38\n"+
+    //"2007-01-01T02:00:00,45,7\n"+
+    //"2007-01-01T03:00:00,5,null\n"+
+    //"2007-01-01T04:00:00,6,35\n"+
+    //"2007-01-01T05:00:00,67,3\n",
+
+    //[
+    //  [2007-01-01 00:00:00,62,9],
+    //  [2007-01-01 01:00:00,null,38],
+    //  [2007-01-01 02:00:00,45,7],
+    //  [2007-01-01 03:00:00,5,null],
+    //  [2007-01-01 04:00:00,6,35],
+    //  [2007-01-01 05:00:00,67,3]
+    //],
 
 
     //".ytemperatures.csv", // path to CSV file
     {
+        labels: ['x', 'instanceA', 'instanceB' ],
+        connectSeparatedPoints: true,
+        drawPoints: true
       //rollPeriod: 7,
       //showRoller: true
     }
