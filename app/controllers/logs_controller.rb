@@ -17,7 +17,7 @@ class LogsController < ApplicationController
         self.class.helpers.compact_instance(instance)
       }
 
-      if @stats_hash["routing"]["min_version"].to_i < 65792 #v1.1.0
+      if @stats_hash["routing"]["min_version"].to_i < Constants::VERSION_1_1_0
         @raw_logs = roma.get_all_logs(active_routing_list)
       else # after v1.1.0
         logs_hash = roma.get_all_logs_by_date(active_routing_list, view_context.add_00sec(params[:start_date]), view_context.add_00sec(params[:end_date]))

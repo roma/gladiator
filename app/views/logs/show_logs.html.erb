@@ -1,6 +1,6 @@
 <div class="main-contents-name">Log</div>
 
-<% if @stats_hash['routing']['min_version'].to_i < 65792 #v1.1.0 %>
+<% if @stats_hash['routing']['min_version'].to_i < Constants::VERSION_1_1_0 %>
   <a href="update" type="button" class="btn btn-warning" id="logs-button">
     <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
     <span id="log-button-msg">Update Log</span>
@@ -48,7 +48,7 @@
       <option value="40">40</option>
       <option value="50">50</option>
       <option value="100">100</option>
-      <% unless @stats_hash['routing']['min_version'].to_i < 65792 #v1.1.0 %>
+      <% unless @stats_hash['routing']['min_version'].to_i < Constants::VERSION_1_1_0 %>
         <option value="1000">1000</option>
       <% end %>
     </select>

@@ -280,7 +280,7 @@ class Roma
   def start_gather_logs_by_date(start_time, end_time, logs_sleep_time ,host, port)
     @logs_sleep_time = logs_sleep_time
 
-    if start_time !~ /^(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)$/ || end_time !~ /^(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)$/
+    if !ApplicationController.helpers.iso_time_format?(start_time) || !ApplicationController.helpers.iso_time_format?(end_time)
       raise "Unexpected type"
     end
 
