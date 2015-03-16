@@ -31,7 +31,14 @@ module ConnectionHelper
       }
     }
 
-    return target_log #array
+    conn_source = {}
+    denominator = target_log.values.inject(:+)
+    target_log.each{|instance, count|
+      percentage = (count * 100) / denominator
+      conn_source["#{instance} (#{percentage}%)"] = count
+    }
+
+    return conn_source #hash
   end
 
   private

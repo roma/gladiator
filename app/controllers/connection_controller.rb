@@ -20,10 +20,9 @@ class ConnectionController < ApplicationController
       gon.connection_label = ['x', active_routing_list].flatten
 
       conn_source_data = view_context.extract_conn_source(logs_hash)
-      #gon.source_label = conn_source_data.keys
-      #gon.source_count = conn_source_data.values
-      gon.source_label = ["192.168.11.11", "192.168.11.12", "192.168.11.13", "192.168.11.14"]
-      gon.source_count = [100, 234, 78, 88]
+      gon.source_label = conn_source_data.keys
+      gon.source_count = conn_source_data.values
+
     else
       redirect_to :action => "index"
     end
