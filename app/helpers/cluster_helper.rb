@@ -70,7 +70,7 @@ module ClusterHelper
   end
 
   def can_recover_end?(stats_hash)
-      if stats_hash['routing']['lost_action'] != 'auto_assign' && chk_roma_version(stats_hash['others']['version']) < 655356 && stats_hash['stats']['enabled_repetition_host_in_routing'] == 'false'
+      if stats_hash['routing']['lost_action'] != 'auto_assign' && chk_roma_version(stats_hash['others']['version']) < Constants::VERSION_1_0_0 && stats_hash['stats']['enabled_repetition_host_in_routing'] == 'false'
         return false
       end
 
@@ -128,7 +128,7 @@ module ClusterHelper
   end
 
   def can_i_use_snapshot?(stats_hash)
-    if chk_roma_version(stats_hash['others']['version']) >= 2062
+    if chk_roma_version(stats_hash['others']['version']) >= Constants::VERSION_0_8_14
       return true
     else
       return false
@@ -179,7 +179,7 @@ module ClusterHelper
   end
 
   def health_btn_color(stats_hash)
-    if chk_roma_version(@stats_hash['others']['version']) <= 2059 #v0.8.11
+    if chk_roma_version(@stats_hash['others']['version']) <= Constants::VERSION_0_8_11
       return 'grey'
     elsif @stats_hash["routing"]["lost_vnodes"].chomp != "0"
       return 'red'

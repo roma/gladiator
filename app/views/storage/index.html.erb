@@ -53,7 +53,7 @@
       <div class="small-contents-name">Command Generater</div>
       <div class="port-input">
         <%= text_field_tag :port, nil, {:placeholder=>"Target Port No.", :class=>"snapPort"} %>
-        <%= submit_tag " Generate ", { :class => "btn btn-info snapshot-btn allow_submit", :disabled=>(chk_roma_version(@stats_hash['others']['version']) < 2062) }%>
+        <%= submit_tag " Generate ", { :class => "btn btn-info snapshot-btn allow_submit", :disabled=>(chk_roma_version(@stats_hash['others']['version']) < Constants::VERSION_0_8_14) }%>
         <div class="snap-explanation"></div>
         <div class="snap-command"></div>
         <div class="snap-command-error"></div>
@@ -61,7 +61,7 @@
     </div>
   
     <div class="status-area">
-      <% if chk_roma_version(@stats_hash['others']['version']) == 2062 #v0.8.14 %>
+      <% if chk_roma_version(@stats_hash['others']['version']) == Constants::VERSION_0_8_14 %>
         <div class="col-xs-12">
           <div class="restriction-panel">
             <div class="restriction-msg restriction-msg-snapshot-status">
@@ -105,7 +105,7 @@
         <div id="lastSnapshotDate"><%= @last_snapshot_data %></div>
       </div>
     </div>
-    <% if chk_roma_version(@stats_hash['others']['version']) == 2062 #v0.8.14 %>
+    <% if chk_roma_version(@stats_hash['others']['version']) == Constants::VERSION_0_8_14 %>
       </div>
     <% end %>
 

@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def past_version?(stats_hash)
-    if chk_roma_version(stats_hash['others']['version']) < 65536
+    if chk_roma_version(stats_hash['others']['version']) < Constants::VERSION_1_0_0
       return true
     else
       return false
@@ -9,7 +9,7 @@ module ApplicationHelper
   end
 
   def eosl_expired?(stats_hash)
-    if chk_roma_version(stats_hash['others']['version']) < 2061
+    if chk_roma_version(stats_hash['others']['version']) < Constants::VERSION_0_8_14
       return true
     else
       return false
@@ -40,5 +40,8 @@ module ApplicationHelper
       return false
     end
   end
- 
+
+  def iso_time_format?(time_string)
+    time_string =~ /^(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)$/
+  end
 end

@@ -5,7 +5,7 @@ class RoutingController < ApplicationController
     @stats_hash = roma.get_stats
     @active_routing_list = roma.change_roma_res_style(@stats_hash["routing"]["nodes"])
 
-    if self.class.helpers.chk_roma_version(@stats_hash['others']['version']) >= 65536
+    if self.class.helpers.chk_roma_version(@stats_hash['others']['version']) >= Constants::VERSION_1_0_0
       @enabled_repetition_in_routingdump = roma.enabled_repetition_in_routingdump?
       @routing_event = roma.change_roma_res_style(@stats_hash["routing"]["event"])
     else
