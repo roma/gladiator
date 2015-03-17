@@ -1,6 +1,6 @@
 <div class="main-contents-name">Log</div>
 
-<% if @stats_hash['routing']['min=version'].to_i < 65792 #v1.1.0 %>
+<% if @stats_hash['routing']['min_version'].to_i < 65792 #v1.1.0 %>
   <a href="update" type="button" class="btn btn-warning" id="logs-button">
     <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
     <span id="log-button-msg">Update Log</span>
