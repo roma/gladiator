@@ -9,12 +9,12 @@ module ConnectionHelper
         end
       }
     }
-    m_array = merge_connection_count(target_log)
-    m_array.each_with_index{|array, index|
-      m_array[index] = "#{array.join(",")}"
+    conn_cnt_array = merge_connection_count(target_log)
+    conn_cnt_array.each_with_index{|array, index|
+      conn_cnt_array[index] = "#{array.join(",")}"
     }
 
-    return m_array.join("\n") #csv
+    return conn_cnt_array.join("\n") #csv
   end
 
   def extract_conn_source(hash)

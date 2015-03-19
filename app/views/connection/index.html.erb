@@ -6,40 +6,24 @@
         You can Not use this function<br>with this old version's ROMA.
       </div>
     </div>
-    <form action='show' method='get'>
-      <table>
-        <tr>
-          <td><font size='5'>start date</font></td>
-          <td>:<input type="datetime-local" name="start_date" step="1" value="<%= @default_start_time %>"></td>
-        <tr>
-          <td><font size='5'>end date</font></td>
-          <td>:<input type="datetime-local" name="end_date" step="1" value="<%= @current_time %>"></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td align="right">
-            <input type="submit" value="Get Logs" class="btn btn-info">
-            <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
-          </td>
-      </table>
-    </form>
-  <% else # after v1.1.0 %>
-    <form action='show' method='get'>
-      <table>
-        <tr>
-          <td><font size='5'>start date</font></td>
-          <td>:<input type="datetime-local" name="start_date" step="1" value="<%= @default_start_time %>"></td>
-        <tr>
-          <td><font size='5'>end date</font></td>
-          <td>:<input type="datetime-local" name="end_date" step="1" value="<%= @current_time %>"></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td align="right">
+  <% end %>
+  <form action='show' method='get'>
+    <table>
+      <tr>
+        <td><font size='5'>start date</font></td>
+        <td>:<input type="datetime-local" name="start_date" step="1" value="<%= @default_start_time %>" required></td>
+      <tr>
+        <td><font size='5'>end date</font></td>
+        <td>:<input type="datetime-local" name="end_date" step="1" value="<%= @current_time %>" required></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td align="right">
+          <div class="button-area">
             <input type="submit" value="Make Glaph" class="btn btn-info" id="make-glaph-button">
             <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
-          </td>
-      </table>
-    </form>
-  <% end %>
+          </div>
+        </td>
+    </table>
+  </form>
 </div>

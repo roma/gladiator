@@ -20,12 +20,21 @@ class LogsController < ApplicationController
       if @stats_hash["routing"]["min_version"].to_i < 65792 #v1.1.0
         @raw_logs = roma.get_all_logs(active_routing_list)
       else # after v1.1.0
-        logs_hash = roma.get_all_logs_by_date(active_routing_list, view_context.add_00sec(params[:start_date]), view_context.add_00sec(params[:end_date]))
-        @gathered_time
+        if flash[:start_date] && flash[:end_date]
+          @start_date = flash[:start_date]
+          @end_date = flash[:end_date]
+        else
+          @start_date = view_context.add_00sec(params[:start_date])
+          @end_date = view_context.add_00sec(params[:end_date])
+        end
+ 
+        logs_hash = roma.get_all_logs_by_date(active_routing_list, @start_date, @end_date)
         logs_hash.each{|instance, logs_array|
           @gathered_time = logs_hash[instance].shift
           logs_hash[instance].shift unless logs_array[0] =~ /INFO|DEBUG|WARN|ERROR/ #remove log file created line
         }
+        @gathered_time =~ /^(\d+)-(\d+)-(\d+)\s(\d+):(\d+):(\d+)/
+        @gathered_time = Time.mktime($1, $2, $3, $4, $5, $6)
         @raw_logs = logs_hash
       end
     else
@@ -35,6 +44,10 @@ class LogsController < ApplicationController
 
   def update
     session[:referer] = nil
+    if params[:start_date] && params[:end_date]
+      flash[:start_date] = view_context.add_00sec(params[:start_date])
+      flash[:end_date] = view_context.add_00sec(params[:end_date])
+    end
     redirect_to :action => "show_logs"
   end
 

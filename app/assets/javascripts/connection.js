@@ -19,19 +19,6 @@ $(window).load(function() {
             }
         );
 
-        var makeClickCallback = function(graph) {
-            var isLocked = false;
-            return function(ev) {
-                if (isLocked) {
-                  graph.clearSelection();
-                  isLocked = false;
-                } else {
-                  graph.setSelection(graph.getSelection(), graph.getHighlightSeries(), true);
-                  isLocked = true;
-                }
-            };
-        };
-
         // pie chart
         var r = Raphael("pie-chart",640,480);
         var pieData= gon.source_count;

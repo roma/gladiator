@@ -1,7 +1,10 @@
 /**-----------------------------
  Button
 -------------------------------- **/
-#make-glaph-button {
+.button-area {
   margin-top: 10px;
 }
 
+#update-graph {
+  margin: 10px 0;
+}
