@@ -3,8 +3,8 @@ class LogsController < ApplicationController
     session[:referer] = nil
     @stats_hash = Roma.new.get_stats
     time = Time.now
-    @default_start_time = (time - 7*24*60*60).strftime("%Y-%m-%dT%H:%M:%S")
-    @current_time = time.strftime("%Y-%m-%dT%H:%M:%S")
+    @default_start_time = (time - 7*24*60*60).strftime("%Y/%m/%d %H:%M")
+    @current_time = time.strftime("%Y/%m/%d %H:%M")
   end
 
   def show_logs
@@ -24,11 +24,10 @@ class LogsController < ApplicationController
           @start_date = flash[:start_date]
           @end_date = flash[:end_date]
         else
-          @start_date = view_context.add_00sec(params[:start_date])
-          @end_date = view_context.add_00sec(params[:end_date])
+          @start_date = params[:start_date]
+          @end_date = params[:end_date]
         end
- 
-        logs_hash = roma.get_all_logs_by_date(active_routing_list, @start_date, @end_date)
+        logs_hash = roma.get_all_logs_by_date(active_routing_list, view_context.change_iso8601(@start_date), view_context.change_iso8601(@end_date))
         logs_hash.each{|instance, logs_array|
           @gathered_time = logs_hash[instance].shift
           logs_hash[instance].shift unless logs_array[0] =~ /INFO|DEBUG|WARN|ERROR/ #remove log file created line
@@ -45,8 +44,8 @@ class LogsController < ApplicationController
   def update
     session[:referer] = nil
     if params[:start_date] && params[:end_date]
-      flash[:start_date] = view_context.add_00sec(params[:start_date])
-      flash[:end_date] = view_context.add_00sec(params[:end_date])
+      flash[:start_date] = params[:start_date]
+      flash[:end_date] = params[:end_date]
     end
     redirect_to :action => "show_logs"
   end

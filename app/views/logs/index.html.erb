@@ -17,10 +17,10 @@
       <table>
         <tr>
           <td><font size='5'>start date</font></td>
-          <td>:<input type="datetime-local" name="start_date" step="1" value="<%= @default_start_time %>" required></td>
+          <td>:<input id="date_timepicker_start" type="text" name="start_date" value="<%= @default_start_time %>"></td>
         <tr>
           <td><font size='5'>end date</font></td>
-          <td>:<input type="datetime-local" name="end_date" step="1" value="<%= @current_time %>" required></td>
+          <td>:<input id="date_timepicker_end" type="text" name="end_date" value="<%= @current_time %>"></td>
         </tr>
         <tr>
           <td></td>

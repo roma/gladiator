@@ -2,9 +2,9 @@
 
 <div class="container">
   <form action='update' method='get' id="update-graph">
-    <font size='4'>start date:</font><input type="datetime-local" name="start_date" step="1" value="<%= @start_date %>" required>
+    <font size='4'>start date:</font><input id="date_timepicker_start" type="text" name="start_date" step="1" value="<%= @start_date %>">
     &nbsp;
-    <font size='4'>end date:</font><input type="datetime-local" name="end_date" step="1" value="<%= @end_date %>" required>
+    <font size='4'>end date:</font><input id="date_timepicker_end" type="text" name="end_date" step="1" value="<%= @end_date %>">
     &nbsp;
     <input type="submit" value="Update Glaph" class="btn btn-warning" id="make-glaph-button">
     <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>

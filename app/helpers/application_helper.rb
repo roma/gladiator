@@ -41,9 +41,11 @@ module ApplicationHelper
     end
   end
  
-  def add_00sec(time)
-    if time =~ (/^(\d+)-(\d+)-(\d+)T(\d+):(\d+)$/)
-      return time << ":00"
+  def change_iso8601(time)
+    if time =~ (/^\d+\/\d+\/\d+\s\d+:\d+$/)
+      t = time.gsub("/", "-")
+      t = t.sub(/\s/, "T")
+      return t << ":00"
     else
       return time
     end
