@@ -12,6 +12,7 @@
  *= require bootstrap.min
  *= require overwrite_bootstrap
  *= require non-responsive
+ *= require jquery.datetimepicker.css
  *= require_tree ./tablesorter
  *= require error
  *= require common

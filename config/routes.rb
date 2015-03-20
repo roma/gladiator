@@ -26,6 +26,11 @@ Gladiator::Application.routes.draw do
   get "logs/show_logs"
   get "logs/update"
 
+  # connection glaph
+  get "connection/index"
+  get "connection/show"
+  get "connection/update"
+
   # Storage
   get  "storage/index"
 

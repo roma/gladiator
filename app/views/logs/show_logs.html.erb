@@ -1,24 +1,31 @@
 <div class="main-contents-name">Log</div>
-
-<% if @stats_hash['routing']['min_version'].to_i < Constants::VERSION_1_1_0 %>
-  <a href="update" type="button" class="btn btn-warning" id="logs-button">
-    <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
-    <span id="log-button-msg">Update Log</span>
-  </a>
-<% else # after v1.1.0 %>
-<% end %>
-
-
-
-
 <div class="small-contents-name">
   <% unless @gathered_time %>
     recent 100 lines are shown.
   <% else %>
-    <%= "log were gathered at #{@gathered_time}" %>.
+    log were gathered at <%= @gathered_time.strftime("%Y-%m-%d %H:%M:%S") %>
   <% end %>
 </div>
 
+<div class="container">
+  <% if @stats_hash['routing']['min_version'].to_i < Constants::VERSION_1_1_0 %>
+    <a href="update" type="button" class="btn btn-warning" id="logs-button">
+      <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
+      <span id="log-button-msg">Update Log</span>
+    </a>
+  <% else # after v1.1.0 %>
+    <form action='update' method='get'>
+      <font size='4'>start date:</font><input id="date_timepicker_start" type="text" name="start_date" value="<%= @start_date %>">
+      &nbsp;
+      <font size='4'>end date:</font><input id="date_timepicker_end" type="text" name="end_date" value="<%= @end_date %>">
+      &nbsp;
+      <input type="submit" value="Get Logs" class="btn btn-warning" id="get-logs-button">
+      <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
+    </form>
+  <% end %>
+</div>
+
+<div class="mini-spacer"></div>
 
 <!-- Nav tabs -->
 <div id="tabs">

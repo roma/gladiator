@@ -44,4 +44,14 @@ module ApplicationHelper
   def iso_time_format?(time_string)
     time_string =~ /^(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)$/
   end
+ 
+  def change_iso8601(time)
+    if time =~ (/^\d+\/\d+\/\d+\s\d+:\d+$/)
+      t = time.gsub("/", "-")
+      t = t.sub(/\s/, "T")
+      return t << ":00"
+    else
+      return time
+    end
+  end
 end

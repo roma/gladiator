@@ -18,11 +18,4 @@ module LogsHelper
     color
   end
 
-  def add_00sec(time)
-    if time =~ (/^(\d+)-(\d+)-(\d+)T(\d+):(\d+)$/)
-      return time << ":00"
-    else
-      return time
-    end
-  end
 end
