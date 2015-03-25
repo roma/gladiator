@@ -10,7 +10,7 @@ $(function(){
       delay: { show: 200, hide: 50 },
     });
 
-    // gathering logs for log and connection glaph
+    // gathering logs for log and connection graph
     $('#date_timepicker_start').datetimepicker({
         format:'Y/m/d H:i',
         onShow:function( ct ){

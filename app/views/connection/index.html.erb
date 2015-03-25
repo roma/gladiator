@@ -1,4 +1,4 @@
-<div class="main-contents-name">Connection Glaph</div>
+<div class="main-contents-name">Connection Graph</div>
 <div class="col-xs-12">
   <% if @stats_hash['routing']['min_version'].to_i < 65792 #v1.1.0 %>
     <div class="restriction-panel restriction-panel">
@@ -20,7 +20,7 @@
         <td></td>
         <td align="right">
           <div class="button-area">
-            <input type="submit" value="Make Glaph" class="btn btn-info" id="make-glaph-button">
+            <input type="submit" value="Make Graph" class="btn btn-info" id="make-graph-button">
             <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
           </div>
         </td>

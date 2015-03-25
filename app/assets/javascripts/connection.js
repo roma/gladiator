@@ -51,9 +51,9 @@ $(window).load(function() {
 })
 
 //submit button
-$("#make-glaph-button").click(function() {
+$("#make-graph-button").click(function() {
     $(".access-loader").css({"display":"inline"});
-    $(this).val("making glaph...");
+    $(this).val("making graph...");
     $(this).css({"background-color":"grey", "border-color":"grey"});
     $(this).attr('disabled', true);
     $(this).closest('form').submit(); //for chrome
