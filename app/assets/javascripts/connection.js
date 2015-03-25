@@ -20,7 +20,7 @@ $(window).load(function() {
         );
 
         // pie chart
-        var r = Raphael("pie-chart",640,480);
+        var r = Raphael("pie-chart","100%",480);
         var pieData= gon.source_count;
         var pieLegends = gon.source_label;
         var pie = r.piechart( 320, 240, 150, pieData, { legend:pieLegends });
