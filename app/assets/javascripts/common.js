@@ -15,7 +15,8 @@ $(function(){
         format:'Y/m/d H:i',
         onShow:function( ct ){
             this.setOptions({
-             maxDate:jQuery('#date_timepicker_end').val()?jQuery('#date_timepicker_end').val():false
+             maxDate:$('#date_timepicker_end').val()?$('#date_timepicker_end').val():false,
+             formatDate: 'Y/m/d H:i'
             })
         },
         validateOnBlur: true,
@@ -28,7 +29,8 @@ $(function(){
         format:'Y/m/d H:i',
         onShow:function( ct ){
             this.setOptions({
-             minDate:jQuery('#date_timepicker_start').val()?jQuery('#date_timepicker_start').val():false
+             minDate:$('#date_timepicker_start').val()?$('#date_timepicker_start').val():false,
+             formatDate: 'Y/m/d H:i'
             })
         },
         validateOnBlur: true,
