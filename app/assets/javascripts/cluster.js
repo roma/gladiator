@@ -234,7 +234,10 @@ $(window).load(function() {
         }
 
         var params =  { 'newHost' : newHost, 'currentHost': currentHost, 'newPort' : newPort, 'currentPort': currentPort, 'configPath': configPath };
-        if (checkParams(params)) {
+        if ( !currentHost || !currentPort ) {
+            $('.join-explanation').css({"color":"#ff0000"});
+            $('.join-explanation').text("Irregular situation happened, please login again.");
+        } else if (checkParams(params)) {
             generateJoinCommand(newHost, newPort, currentHost, currentPort, configPath, repetitionOption)
         } else {
             resetResult();
