@@ -1,9 +1,13 @@
 <div class="main-contents-name">Log</div>
 <div class="small-contents-name">
-  <% unless @gathered_time %>
+  <% if @stats_hash['routing']['min_version'].to_i < Constants::VERSION_1_1_0 %>
     recent 100 lines are shown.
   <% else %>
-    log were gathered at <%= @gathered_time.strftime("%Y-%m-%d %H:%M:%S") %>
+    <% if @gathered_time %>
+      log were gathered at <%= @gathered_time.strftime("%Y-%m-%d %H:%M:%S") %>
+    <% else %>
+      <div class="error-msg">No log records are existed.</div>
+    <% end %>
   <% end %>
 </div>
 

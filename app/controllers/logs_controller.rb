@@ -32,8 +32,9 @@ class LogsController < ApplicationController
           @gathered_time = logs_hash[instance].shift
           logs_hash[instance].shift unless logs_array[0] =~ /INFO|DEBUG|WARN|ERROR/ #remove log file created line
         }
-        @gathered_time =~ /^(\d+)-(\d+)-(\d+)\s(\d+):(\d+):(\d+)/
-        @gathered_time = Time.mktime($1, $2, $3, $4, $5, $6)
+        if @gathered_time =~ /^(\d+)-(\d+)-(\d+)\s(\d+):(\d+):(\d+)/
+          @gathered_time = Time.mktime($1, $2, $3, $4, $5, $6)
+        end
         @raw_logs = logs_hash
       end
     else
