@@ -12,7 +12,7 @@
 </button>
 
 <ul class="error-message">
-  <% if chk_roma_version(@stats_hash['others']['version']) <= 2059 #v0.8.11 %>
+  <% if chk_roma_version(@stats_hash['others']['version']) <= Constants::VERSION_0_8_11 %>
     <li class="status-caution restriction-health-button">
       <span class="no-response-icon"><i class="icon-question-sign"></i></span>
       Health button function is not supported ROMA v0.8.11.
@@ -162,7 +162,7 @@
           <th rowspan="2">No.</th>
           <th rowspan="2">Cluster Name</th>
           <th rowspan="2" data-placeholder="">Status</th>
-          <% unless memory_mode?(@stats_hash) %>
+          <% if storage_type_is_tc?(@stats_hash) %>
             <th rowspan="2">Data rate</th>
             <th rowspan="2" class="datasize-column">Data size</th>
           <% end %>
@@ -180,7 +180,7 @@
         <% 
         index = 0
         @routing_info.each do |(instance, info)|
-          if info["status"] == "active" || chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
+          if info["status"] == "active" || chk_roma_version(@stats_hash['others']['version']) <= Constants::VERSION_0_8_11 %>
             <tr>
           <% elsif info["status"] =~ /inactive|no_response/ %>
             <tr class="active">
@@ -201,7 +201,7 @@
                 <% elsif info["status"] == "no_response" %>
                   <span class="no-response-icon"><i class="icon-question-sign"></i></span>
                   <%= info["status"] %>
-                <% elsif chk_roma_version(@stats_hash['others']['version']) <= 2059 %>
+                <% elsif chk_roma_version(@stats_hash['others']['version']) <= Constants::VERSION_0_8_11 %>
                   <span class="no-response-icon"><i class="icon-question-sign"></i></span>
                   unsupported
                 <% elsif info["status"] == "active" %>
@@ -213,7 +213,7 @@
                 <% end %>
               </td>
 
-            <% unless memory_mode?(@stats_hash) %>
+            <% if storage_type_is_tc?(@stats_hash) %>
               <!-- Data rate -->
               <td class="progress-bar-column">
                 <% if is_active?(info["status"]) %>

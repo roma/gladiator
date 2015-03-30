@@ -277,6 +277,32 @@ class Roma
     return raw_logs
   end
 
+  def start_gather_logs_by_date(start_time, end_time, logs_sleep_time ,host, port)
+    @logs_sleep_time = logs_sleep_time
+
+    if !ApplicationController.helpers.iso_time_format?(start_time) || !ApplicationController.helpers.iso_time_format?(end_time)
+      raise "Unexpected type"
+    end
+
+    send_command("gather_logs #{start_time} #{end_time}", "STARTED", host, port)
+  end
+
+  def get_all_logs_by_date(active_routing_list, start_time, end_time)
+    active_routing_list.each{|instance|
+      self.start_gather_logs_by_date(start_time, end_time, 3, instance.split("_")[0], instance.split("_")[1])
+    }
+
+    sleep @logs_sleep_time # wait for finishing gathering
+
+    raw_logs = {}
+    active_routing_list.each{|instance|
+      logs = self.show_logs(instance.split("_")[0], instance.split("_")[1])
+      raw_logs.store(instance, logs)
+    }
+
+    return raw_logs
+  end
+
   def send_command(command, eof = "END", host = @host, port = @port)
     nid ="#{host}_#{port}"
     con = ConPool.instance.get_connection(nid)

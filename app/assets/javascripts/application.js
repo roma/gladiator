@@ -14,6 +14,11 @@
 //= require jquery.tablesorter.js
 //= require jquery.tablesorter.widgets.js
 //= require jquery.tablesorter.pager.js
+//= require jquery.datetimepicker.js
+//= require raphael-min.js
+//= require g.raphael-min.js
+//= require g.pie-min.js
+//= require dygraph-combined-dev.js
 //= require bootstrap
 //= require validate
 //= require jquery.validate

@@ -147,7 +147,7 @@ shared_examples_for 'get_routing_info_check' do |routing_info|
     it "[3-10]" do expect(info["size"]).to be > 209715200 end # 1 tc file is over 20 MB at least
     # Version check
     it "[3-11]" do expect(info["version"]).to be_a_kind_of(String) end
-    it "[3-12]" do expect(info["version"]).to match(/^\d\.\d\.\d+$|^\d\.\d\.\d+\-p\d+$/) end #/^\d\.\d\.\d+\-p\d+$/ is for 0.8.13-p1
+    it "[3-12]" do expect(info["version"]).to match(/^\d\.\d\.\d+[-dev]*$|^\d\.\d\.\d+\-p\d+$/) end #/^\d\.\d\.\d+\-p\d+$/ is for 0.8.13-p1
 
     # primary nodes count check
     it "[4-1]" do expect(info["primary_nodes"]).to be_a_kind_of(Fixnum) end

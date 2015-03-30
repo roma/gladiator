@@ -81,6 +81,21 @@ html, body {
   opacity:0;
 }
 
+.mini-spacer {
+  height: 10px;
+  display: block;
+}
+
+.spacer {
+  height: 40px;
+  display: block;
+}
+
+.error-msg {
+  color: #ff0000;
+  font-size: 20px;
+}
+
 /**-----------------------------------------
   side bar
 -------------------------------------------- **/

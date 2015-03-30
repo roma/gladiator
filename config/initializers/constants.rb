@@ -3,7 +3,16 @@
 module Constants
   private
   # version
-  VERSION = "1.0.0"
+  VERSION = "1.1.0"
+
+  # ROMA bit shifted version
+  VERSION_0_8_11 = 2059
+  VERSION_0_8_12 = 2060
+  VERSION_0_8_13 = 2061
+  VERSION_0_8_14 = 2062
+  VERSION_1_0_0  = 65536
+  VERSION_1_1_0  = 65792
+
   # stats colomn name
   STATS_COL_NAME = ["config","stats","storages[roma]","write-behind","routing","connection","others"]
 

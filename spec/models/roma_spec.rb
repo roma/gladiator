@@ -534,4 +534,34 @@ describe Roma do
     end
   end
 
+#[v1.1.0]=================================================================
+  describe "v1.1.0" do
+    roma = Roma.new
+    active_routing_list = roma.change_roma_res_style(roma.get_stats["routing"]["nodes"])
+
+    context "get_all_logs_by_date" do
+      it "[7-1] normal check" do
+        res =  roma.get_all_logs_by_date(active_routing_list, '2001-01-01T00:00:00', '2099-12-31T00:00:00')
+        expect(res.class).to be Hash
+        expect(res.size).to be active_routing_list.size
+        expect(res.values.flatten.size).to be > 0
+      end
+
+      it "[7-2] brank value check" do
+        expect { roma.get_all_logs_by_date(active_routing_list, '', '') }.to raise_error
+      end
+
+      it "[7-3] irregular value check" do
+        res = roma.get_all_logs_by_date(active_routing_list, '2099-01-01T00:00:00', '2099-12-31T00:00:00')
+        expect(res.class).to be Hash
+        expect(res.size).to be active_routing_list.size
+        expect(res.values.flatten.size).to be 0
+      end
+
+      it "[7-4] irregular format value check" do
+        expect { roma.get_all_logs_by_date(active_routing_list, '2001/01/01 00:00:00', '2099/12/31 00:00:00') }.to raise_error
+      end
+    end
+  end
+
 end # End of describe

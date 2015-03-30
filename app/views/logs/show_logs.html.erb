@@ -1,11 +1,35 @@
 <div class="main-contents-name">Log</div>
+<div class="small-contents-name">
+  <% if @stats_hash['routing']['min_version'].to_i < Constants::VERSION_1_1_0 %>
+    recent 100 lines are shown.
+  <% else %>
+    <% if @gathered_time %>
+      log were gathered at <%= @gathered_time.strftime("%Y-%m-%d %H:%M:%S") %>
+    <% else %>
+      <div class="error-msg">No log records are existed.</div>
+    <% end %>
+  <% end %>
+</div>
 
-<a href="update" type="button" class="btn btn-warning" id="logs-button">
-  <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
-  <span id="log-button-msg">Update Log</span>
-</a>
+<div class="container">
+  <% if @stats_hash['routing']['min_version'].to_i < Constants::VERSION_1_1_0 %>
+    <a href="update" type="button" class="btn btn-warning" id="logs-button">
+      <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
+      <span id="log-button-msg">Update Log</span>
+    </a>
+  <% else # after v1.1.0 %>
+    <form action='update' method='get'>
+      <font size='4'>start date:</font><input id="date_timepicker_start" type="text" name="start_date" value="<%= @start_date %>">
+      &nbsp;
+      <font size='4'>end date:</font><input id="date_timepicker_end" type="text" name="end_date" value="<%= @end_date %>">
+      &nbsp;
+      <input type="submit" value="Get Logs" class="btn btn-warning" id="get-logs-button">
+      <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
+    </form>
+  <% end %>
+</div>
 
-<div class="small-contents-name">recent 100 lines are shown.</div>
+<div class="mini-spacer"></div>
 
 <!-- Nav tabs -->
 <div id="tabs">
@@ -20,10 +44,31 @@
     <% } %>
   </ul>
 
+  <!-- Pager slider --> 
+  <div id="pager" class="pager">
+    <%= image_tag('arrow_back_end.png', :size => "17x17", :class => "first") %>
+    <%= image_tag('arrow_back.png', :size => "17x17", :class => "prev") %>
+    <span class="pagedisplay" value=""/>
+    <input type="text" class="pagedisplay"/>
+    <%= image_tag('arrow_next.png', :size => "17x17", :class => "next") %>
+    <%= image_tag('arrow_next_end.png', :size => "17x17", :class => "last") %>
+    <select class="pagesize">
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option selected="selected" value="30">30</option>
+      <option value="40">40</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <% unless @stats_hash['routing']['min_version'].to_i < Constants::VERSION_1_1_0 %>
+        <option value="1000">1000</option>
+      <% end %>
+    </select>
+  </div>
+
   <!-- Tabs body -->
   <% @raw_logs.each{|instance, logs| %>
     <div id=<%= compact_instance(instance) %> class="panel">
-      <table class="table tablesorter log-table">
+      <table class="table tablesorter log-table ts-pager">
         <thead>
           <tr>
             <td>Date</td>

@@ -1,0 +1,33 @@
+<div class="main-contents-name">Connection Graph</div>
+
+<div class="container">
+  <form action='update' method='get' id="update-graph">
+    <font size='4'>start date:</font><input id="date_timepicker_start" type="text" name="start_date" step="1" value="<%= @start_date %>">
+    &nbsp;
+    <font size='4'>end date:</font><input id="date_timepicker_end" type="text" name="end_date" step="1" value="<%= @end_date %>">
+    &nbsp;
+    <input type="submit" value="Update Graph" class="btn btn-warning" id="make-graph-button">
+    <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
+  </form>
+</div>
+
+<!-- connection count(line chart) -->
+<div class="container">
+  <div class="sub-contents-name">Connection count chart</div>
+  <div class="col-xs-9">
+    <div id="line-chart" style="width:100%;"></div>
+  </div>
+  <div class="col-xs-3">
+    <div id="label-position"></div>
+  </div>
+</div>
+
+<div class="spacer"></div>
+
+<!-- connection source(pie graph) -->
+<div class="container">
+  <div class="sub-contents-name">Connection source chart</div>
+  <div class="col-xs-12">
+    <div id="pie-chart"></div>
+  </div>
+</div>
