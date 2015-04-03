@@ -28,6 +28,8 @@ module Constants
   DEFAULT_SPUSHV_KLENGTH_WARN             = 1024
   DEFAULT_SPUSHV_VLENGTH_WARN             = 1048576
   DEFAULT_ROUTING_TRNAS_TIMEOUT           = 10080
+  DEFAULT_LOG_SHIFT_SIZE                  = 1024 * 1024 * 10
+  DEFAULT_LOG_SHIFT_AGE                   = 10
   DEFAULT_SHIFT_SIZE                      = 1024 * 1024 * 10
   DEFAULT_DO_WRITE                        = false
   DEFAULT_FAIL_CNT_THRESHOLD              = 15

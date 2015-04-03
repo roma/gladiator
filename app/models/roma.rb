@@ -10,6 +10,8 @@ class Roma
     :spushv_klength_warn,
     :spushv_vlength_warn,
     :routing_trans_timeout,
+    :log_shift_size,
+    :log_shift_age,
     :shift_size,
     :fail_cnt_threshold,
     :fail_cnt_gap,

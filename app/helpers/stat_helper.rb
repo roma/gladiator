@@ -142,13 +142,17 @@ module StatHelper
         return <<-EOS
        	  Balance process is going or not.
         EOS
-      when "last_clean_up"
+      when "gui_run_snapshot"
         return <<-EOS
-       	  Date of last executing of clean up storage.
+          Snapshot process is going or not.
         EOS
       when "last_clean_up"
         return <<-EOS
-       	  Date of last executing of clean up storage.
+          Date of last executing of clean up storage.
+        EOS
+      when "gui_last_snapshot"
+        return <<-EOS
+          Date of last executing of snapshot.
         EOS
       when "spushv_protection"
         return <<-EOS
@@ -158,7 +162,11 @@ module StatHelper
         EOS
       when "stream_copy_wait_param"
         return <<-EOS
-       	  Specify waiting time (in seconds) to copy the data slowly between nodes.
+          Specify waiting time (in seconds) to copy the data slowly between nodes.
+        EOS
+      when "stream_show_wait_param"
+        return <<-EOS
+          Specify waiting time (in seconds) to show gathered log data each of 10 lines.
         EOS
       when "dcnice"
         return <<-EOS
@@ -281,11 +289,28 @@ module StatHelper
        	  Specify the transaction time of routing change.<br>
           When over the this setting time, routing will be rollback.
         EOS
+      when "log_shift_size"
+        return <<-EOS
+          Specify size (in bytes) of the log files.<br>
+          When the log file reaches this size, it will rotate to the next file.
+        EOS
+      when "log_shift_age"
+        return <<-EOS
+          Specify number of log files which are rotated.
+        EOS
       when "storage.storage_path"
         return <<-EOS
        	  Specify directory that ROMA should create storage files in.<br><br>
           This is required when ROMA select file-based storage implementation.<br>
           Default directory is current directory.
+        EOS
+      when "storage.st_class"
+        return <<-EOS
+          Specify the storage type.<br><br>
+          RubyHashStorage : RubyHash(OS memory)<br>
+          TCStorage : TokyoCabinet<br>
+          GroongaStorage : groonga<br>
+          SQLite3Storage : SQLite
         EOS
       when "storage.divnum"
         return <<-EOS
@@ -327,11 +352,19 @@ module StatHelper
        	  Specify the time of sleeping in each keys when clean up executing.<br><br>
        	  So at least, clean_up process take time over ([storage.each_clean_up_sleep] * Key count)sec
         EOS
+      when "storage.cleanup_regexp"
+        return <<-EOS
+          By this regular expression, specify a rule how key list makes.
+        EOS
       when "storage.logic_clock_expire"
         return <<-EOS
           ROMA's data have date data & logic clock.<br><br>
           But sometimes some difference happen between date data & logic clock.<br><br>
           This setting specify the time lag to estimate which node's data is correct.
+        EOS
+      when "storage.safecopy_stats"
+        return <<-EOS
+          TC file's status of snapshot process.
         EOS
       when "path"
         return <<-EOS
@@ -439,6 +472,14 @@ module StatHelper
       when "auto_recover_time"
         return <<-EOS
        	  Specify the waiting time to execute auto-recover after short vnode rising.
+        EOS
+      when "event"
+        return <<-EOS
+          The list of event(node down and join).
+        EOS
+      when "event_limit_line"
+        return <<-EOS
+          Specify the counts how many event are stored.
         EOS
       when "auto_recover_status"
         return <<-EOS
@@ -562,6 +603,10 @@ module StatHelper
         Constants::DEFAULT_SPUSHV_VLENGTH_WARN
       when "routing_trans_timeout"
         Constants::DEFAULT_ROUTING_TRNAS_TIMEOUT
+      when "log_shift_size"
+        Constants::DEFAULT_LOG_SHIFT_SIZE
+      when "log_shift_age"
+        Constants::DEFAULT_LOG_SHIFT_AGE
       when "shift_size"
         Constants::DEFAULT_SHIFT_SIZE
       #when "do_write"
@@ -648,6 +693,10 @@ module StatHelper
         "set_spushv_vlength_warn"
       when "routing_trans_timeout"
         "set_routing_trans_timeout"
+      when "log_shift_size"
+        "set_log_shift_size"
+      when "log_shift_age"
+        "set_log_shift_age"
       when "shift_size"
         "set_wb_shift_size"
       #when "do_write"

@@ -227,7 +227,7 @@ $(window).load(function() {
         var currentPort = $('#currentPort').val();
         var configPath = $('#configPath').val();
         if ($("#repetitionCheck").prop('checked')) {
-            var repetitionOption = "--enabled_repeathost"
+            var repetitionOption = "--replication_in_host"
         }
         else {
             var repetitionOption = ""
