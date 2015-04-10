@@ -7,6 +7,18 @@ $(document).ready(function() {
           min: 1,
           max: 2147483647
         },
+        "log_shift_size": {
+          required: true,
+          digits: true,
+          min: 4096,
+          max: 2147483647
+        },
+        "log_shift_age": {
+          required: true,
+          digits: true,
+          min: 1,
+          max: 1024
+        },
         "hilatency_warn_time": {
           required: true,
           number: true,

@@ -295,7 +295,7 @@
         :new instance's [config.rb]'s PATH.
         <div class="configPath"></div>
         <%= check_box :repetition, nil, {:id=>'repetitionCheck'}, checked_value = "a", unchecked_value = "b" %>
-        : Use "--enabled_repeathost" option?
+        : Use "--replication_in_host" option?
 
         <%= hidden_field_tag :current_host, $baseHost, {:id=>"currentHost"} %>
         <%= hidden_field_tag :current_port,  $basePort, {:id=>"currentPort"} %>

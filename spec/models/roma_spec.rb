@@ -61,7 +61,8 @@ describe Roma do
         "hilatency_warn_time",
         "spushv_klength_warn",
         "spushv_vlength_warn",
-        "routing_trans_timeout"
+        "routing_trans_timeout",
+        "log_shift_age"
       ],
       "write-behind" => [
         "shift_size"
@@ -117,7 +118,8 @@ describe Roma do
 
     specific_columns = {
       "stats" => [
-        "dcnice"
+        "dcnice",
+        "log_shift_size"
       ],
       "connection" => [
         "descriptor_table_size",
@@ -137,6 +139,13 @@ describe Roma do
             it_should_behave_like 'dynamic cmd check', column, "4", group, "string"
             it_should_behave_like 'validation check', column, 5,          "normal"
             it_should_behave_like 'validation check', column, 10,         "Over Length"
+            it_should_behave_like 'validation check', column, -50,        "under0"
+            it_should_behave_like 'validation check', column, 9999999999, "Over Limit"
+            it_should_behave_like 'validation check', column, "hogehoge", "Character"
+            it_should_behave_like 'validation check', column, nil,        "nil"
+          elsif column == "log_shift_size"
+            it_should_behave_like 'dynamic cmd check', column, "4096", group, "string"
+            it_should_behave_like 'validation check', column, 4096,       "normal"
             it_should_behave_like 'validation check', column, -50,        "under0"
             it_should_behave_like 'validation check', column, 9999999999, "Over Limit"
             it_should_behave_like 'validation check', column, "hogehoge", "Character"
