@@ -46,6 +46,20 @@ class Roma
         :greater_than_or_equal_to => 1,
         :less_than_or_equal_to => 2147483647,
         :message =>' : number must be from 1 to 2147483647.' }
+  validates :log_shift_size,
+      allow_nil: true,
+      :numericality => {
+        :only_integer => true,
+        :greater_than_or_equal_to => 4096,
+        :less_than_or_equal_to => 2147483647,
+        :message =>' : number must be from 4096 to 2147483647.' }
+  validates :log_shift_age,
+      allow_nil: true,
+      :numericality => {
+        :only_integer => true,
+        :greater_than_or_equal_to => 1,
+        :less_than_or_equal_to => 1024,
+        :message =>' : number must be from 1 to 1024.' }
   validates :hilatency_warn_time,
       allow_nil: true,
       :numericality => { 
