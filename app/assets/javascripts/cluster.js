@@ -51,15 +51,12 @@ $(window).load(function() {
         theme: 'default',
         sortList: [[0,0]],
         widthFixed: true,
-        //widgets: ["filter"], 
         widgets: ["filter"], 
-        headers: {0: { filter: false }, 3: { filter: false }, 4: { filter: false }, 5: { filter: false },  6: { filter: false, sorter: false }, 7: { filter: false }},
+        headers: {0: { filter: false }, 3: { filter: false }, 4: { filter: false }, 5: { filter: false },  6: { filter: false, sorter: false }, 7: { filter: false }, 8: {filter: false}, 9: {filter: false}},
         widgetOptions : { 
           filter_reset : 'button.reset-filter',
           filter_cssFilter : 'tablesorter-filter', 
           filter_functions : {
-            0: true,
-            1: true,
             2 : true
           }
         } 
