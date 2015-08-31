@@ -166,14 +166,17 @@
             <th rowspan="2">Data rate</th>
             <th rowspan="2" class="datasize-column">Data size</th>
           <% end %>
-          <th colspan="2">vnodes count</th>
+          <!--<th colspan="2">vnodes count</th>-->
+          <th colspan="3">vnodes count</th> <!-- secondary1-->
           <% if session[:user_type] == 'root' %>
             <th rowspan="2" class="button-column">&nbsp;</th>
           <% end %>
         </tr>
         <tr>
           <th class="vnodes-column">Primary</th>
-          <th class="vnodes-column">Secondary</th>
+          <!--<th class="vnodes-column">Secondary</th>-->
+          <th class="vnodes-column">Secondary1</th>
+          <th class="vnodes-column">Secondary2</th>
         </tr>
       </thead>
       <tbody class="table-contents">
@@ -246,12 +249,28 @@
                 <%= info["primary_nodes"] %>
               </span>
             </td>
+
             <!-- Secondary nodes-->
+            <!--
             <td>
-              <span id="secondary-nodes-<%= instance.gsub(/[^0-9]/,"") %>">
-                <%= info["secondary_nodes"] %>
+              <span id="secondary-nodes-<%#= instance.gsub(/[^0-9]/,"") %>">
+                <%#= info["secondary_nodes"] %>
               </span>
             </td>
+            -->
+
+
+            <td>
+              <span id="secondary-nodes1-<%= instance.gsub(/[^0-9]/,"") %>">
+                <%= info["secondary_nodes1"] %>
+              </span>
+            </td>
+            <td>
+              <span id="secondary-nodes2-<%= instance.gsub(/[^0-9]/,"") %>">
+                <%= info["secondary_nodes2"] %>
+              </span>
+            </td>
+
 
             <!-- release/rbalse button(for root user) -->
             <% if session[:user_type] == 'root' %>

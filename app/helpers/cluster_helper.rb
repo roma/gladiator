@@ -150,7 +150,8 @@ module ClusterHelper
   def released_flg?(routing_info)
     return true if session[:released]
     routing_info.each{|instance, info|
-      if info["primary_nodes"] == 0 && info["secondary_nodes"] == 0
+      #if info["primary_nodes"] == 0 && info["secondary_nodes"] == 0
+      if info["primary_nodes"] == 0 && info["secondary_nodes1"] && info["secondary_nodes2"]== 0
         flash[:error_message] = "Did you execute release? In this case, you have to execute rbalse."
       end
     }
