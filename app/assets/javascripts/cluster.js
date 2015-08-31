@@ -77,13 +77,31 @@ $(window).load(function() {
         calcProgressRate('join');
     }
 
+    function updateVnodesCount(data, instanceName, type) {
+        cnt = parseInt(data[instanceName][type]);
+        start = gon.routing_info[instanceName][type];
+        if (cnt < start) {
+            color = "red"
+            icon  = 'arrow-down'
+        }else if (cnt > start) {
+            color = "blue"
+            icon  = 'arrow-up'
+        }else{
+            color = ""
+            icon  = ''
+        }
+        instance = instanceName.match(/\d/g).join("");
+        $('#'+ type.replace(/_/g, "-") +'-'+instance).css("color", color)
+        $('#'+ type.replace(/_/g, "-") +'-'+instance).html(cnt+'<span><i class="icon-'+icon+'"></i></span>')
+    }
+
     function calcProgressRate(process) {
         var webApiEndPoint
         var instanceName
         var primaryVnodes
-        //var secondaryVnodes
-        var secondaryVnodes1
-        var secondaryVnodes2
+        var cnt
+        var start
+        var rd
         var progressRate
         var host
         var protocol
@@ -102,76 +120,14 @@ $(window).load(function() {
             for(instanceName in data){
                 if (data[instanceName]["status"] != "inactive") {
 
-                    primaryVnodes   = parseInt(data[instanceName]["primary_nodes"]);
-                    //secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
-                    secondaryVnodes1 = parseInt(data[instanceName]["secondary_nodes1"]);
-                    secondaryVnodes2 = parseInt(data[instanceName]["secondary_nodes2"]);
-                    startPrimaryVnodes   = gon.routing_info[instanceName]["primary_nodes"];
-                    //startSecondaryVnodes = gon.routing_info[instanceName]["secondary_nodes"];
-                    startSecondaryVnodes1 = gon.routing_info[instanceName]["secondary_nodes1"];
-                    startSecondaryVnodes2 = gon.routing_info[instanceName]["secondary_nodes2"];
+                    // primary node
+                    updateVnodesCount(data, instanceName, "primary_nodes")
 
-                    //set vnodes count
-                    if (primaryVnodes < startPrimaryVnodes) {
-                        color_primary = "red"
-                        icon_primary  = 'arrow-down'
-                    }else if (primaryVnodes > startPrimaryVnodes) {
-                        color_primary = "blue"
-                        icon_primary  = 'arrow-up'
-                    }else{
-                        color_primary = ""
-                        icon_primary  = ''
+                    // secondary node
+                    rd = parseInt(data[instanceName]["redundant"])
+                    for(i = 0; i < rd; i++ ){
+                        updateVnodesCount(data, instanceName, "secondary_nodes"+(i+1))
                     }
-
-                    //if (secondaryVnodes < startSecondaryVnodes) {
-                    //    color_secondary = "red"
-                    //    icon_secondary  = 'arrow-down'
-                    //}else if (secondaryVnodes > startSecondaryVnodes) {
-                    //    color_secondary = "blue"
-                    //    icon_secondary  = 'arrow-up'
-                    //}else{
-                    //    color_secondary = ""
-                    //    icon_secondary  = ''
-                    //}
-
-                    if (secondaryVnodes1 < startSecondaryVnodes1) {
-                        color_secondary1 = "red"
-                        icon_secondary1  = 'arrow-down'
-                    }else if (secondaryVnodes1 > startSecondaryVnodes1) {
-                        color_secondary1 = "blue"
-                        icon_secondary1  = 'arrow-up'
-                    }else{
-                        color_secondary1 = ""
-                        icon_secondary1  = ''
-                    }
-
-                    if (secondaryVnodes2 < startSecondaryVnodes2) {
-                        color_secondary2 = "red"
-                        icon_secondary2  = 'arrow-down'
-                    }else if (secondaryVnodes2 > startSecondaryVnodes2) {
-                        color_secondary2 = "blue"
-                        icon_secondary2  = 'arrow-up'
-                    }else{
-                        color_secondary2 = ""
-                        icon_secondary2  = ''
-                    }
-
-
-
-                    instance = instanceName.match(/\d/g).join("");
-                    //for primary nodes
-                    $('#primary-nodes-'+instance).css("color", color_primary)
-                    $('#primary-nodes-'+instance).html(primaryVnodes+'<span><i class="icon-'+icon_primary+'"></i></span>')
-
-                    //for secondary nodes
-                    //$('#secondary-nodes-'+instance).css("color", color_secondary)
-                    //$('#secondary-nodes-'+instance).html(secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>')
-
-                    $('#secondary-nodes1-'+instance).css("color", color_secondary1)
-                    $('#secondary-nodes1-'+instance).html(secondaryVnodes1+'<span><i class="icon-'+icon_secondary1+'"></i></span>')
-
-                    $('#secondary-nodes2-'+instance).css("color", color_secondary2)
-                    $('#secondary-nodes2-'+instance).html(secondaryVnodes2+'<span><i class="icon-'+icon_secondary2+'"></i></span>')
 
                     if (instanceName == gon.host+"_"+gon.port) {
                         $('#short-vnodes-cnt').text(data[instanceName]["short_vnodes"]);
@@ -190,14 +146,13 @@ $(window).load(function() {
     function progressBarSet(data, process) {
         switch (process) {
             case "release":
-                primaryVnodes   = parseInt(data["primary_nodes"]);
+                sum_vnodes = parseInt(data["primary_nodes"]);
+                rd = parseInt(data["redundant"])
+                for(i = 0; i < rd; i++ ){
+                    sum_vnodes += parseInt(data["secondary_nodes"+(i+1)]);
+                }
 
-                //secondaryVnodes = parseInt(data["secondary_nodes"]);
-                secondaryVnodes1 = parseInt(data["secondary_nodes1"]);
-                secondaryVnodes2 = parseInt(data["secondary_nodes2"]);
-
-                //progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/gon.denominator)) * 1000) /10
-                progressRate = Math.round((1-((primaryVnodes + secondaryVnodes1 + secondaryVnodes2)/gon.denominator)) * 1000) /10
+                progressRate = Math.round((1-(sum_vnodes/gon.denominator)) * 1000) /10
 
                 $('#extra-progress-bar').css("width",progressRate + "%");
                 $('#extra-bar-rate').text(progressRate+ "% Complete");
@@ -220,13 +175,13 @@ $(window).load(function() {
     function checkFinish(data, process) {
         switch (process) {
             case "release":
-                primaryVnodes   = parseInt(data["primary_nodes"]);
+                sum_vnodes = parseInt(data["primary_nodes"]);
+                rd = parseInt(data["redundant"])
+                for(i = 0; i < rd; i++ ){
+                    sum_vnodes += parseInt(data["secondary_nodes"+(i+1)]);
+                }
 
-                secondaryVnodes1 = parseInt(data["secondary_nodes1"]);
-                secondaryVnodes2 = parseInt(data["secondary_nodes2"]);
-
-                //progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/gon.denominator)) * 1000) /10
-                progressRate = Math.round((1-((primaryVnodes + secondaryVnodes1 + secondaryVnodes2)/gon.denominator)) * 1000) /10
+                progressRate = Math.round((1-(sum_vnodes/gon.denominator)) * 1000) /10
 
                 if (progressRate == 100) {
                     $('#extra-bar-rate').text("Finished!");

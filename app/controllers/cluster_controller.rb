@@ -17,8 +17,11 @@ class ClusterController < ApplicationController
           gon.host, gon.port = instance.split(/_/) 
           # in case of release was executing by console or login by other users
           if !session[:denominator]
-            #session[:denominator] = info["primary_nodes"] + info["secondary_nodes"]
-            session[:denominator] = info["primary_nodes"] + info["secondary_nodes1"] + info["secondary_nodes2"]
+            session[:denominator] = info["primary_nodes"]
+            info["redundant"].times{|i|
+              session[:denominator] += info["secondary_nodes#{i+1}"] 
+            }
+ 
           end
           gon.denominator = session[:denominator]
           gon.routing_info = @routing_info
@@ -97,10 +100,10 @@ class ClusterController < ApplicationController
     @inactive_routing_list = roma.get_all_routing_list - @active_routing_list
     @routing_info = roma.get_routing_info(@active_routing_list)
     gon.routing_info = @routing_info
-
-    #session[:denominator] = @routing_info[params[:target_instance]]["primary_nodes"] + @routing_info[params[:target_instance]]["secondary_nodes"]
-    session[:denominator] = @routing_info[params[:target_instance]]["primary_nodes"] + @routing_info[params[:target_instance]]["secondary_nodes1"] + @routing_info[params[:target_instance]]["secondary_nodes2"] 
-
+    session[:denominator] = @routing_info[params[:target_instance]]["primary_nodes"]
+    @stats_hash["routing"]["redundant"].to_i.times{|i|
+      session[:denominator] += @routing_info[params[:target_instance]]["secondary_nodes#{i+1}"]
+    }
     gon.denominator = session[:denominator]
 
     render :action => "index"
