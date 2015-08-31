@@ -217,11 +217,9 @@ class Roma
         
         ### vnodes count
         routing_list_info[instance]["primary_nodes"] = each_stats["routing"]["primary"].to_i
-        rd.times{|i|
+        (rd-1).times{|i|
           routing_list_info[instance]["secondary_nodes#{i+1}"] = each_stats["routing"]["secondary#{i+1}"].to_i
         }
-
-
 
         ### option params
         unless option_params.empty?
