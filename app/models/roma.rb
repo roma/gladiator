@@ -186,7 +186,9 @@ class Roma
       roma_instance_info[instance]["size"] = nil
       roma_instance_info[instance]["version"] = nil
       roma_instance_info[instance]["primary_nodes"] = nil
-      roma_instance_info[instance]["secondary_nodes"] = nil
+      ##roma_instance_info[instance]["secondary_nodes"] = nil
+      #roma_instance_info[instance]["secondary_nodes1"] = nil
+      #roma_instance_info[instance]["secondary_nodes2"] = nil
       unless option_params.empty?
         option_params.each{|param|
           roma_instance_info[instance][param] = nil
@@ -226,9 +228,14 @@ class Roma
         ### version
         routing_list_info[instance]["version"] = each_stats["others"]["version"].chomp
 
+        ### redundancy
+        routing_list_info[instance]["redundant"] = rd = each_stats["routing"]["redundant"].to_i
+        
         ### vnodes count
         routing_list_info[instance]["primary_nodes"] = each_stats["routing"]["primary"].to_i
-        routing_list_info[instance]["secondary_nodes"] = each_stats["routing"]["secondary"].to_i
+        (rd-1).times{|i|
+          routing_list_info[instance]["secondary_nodes#{i+1}"] = each_stats["routing"]["secondary#{i+1}"].to_i
+        }
 
         ### option params
         unless option_params.empty?

@@ -166,14 +166,17 @@
             <th rowspan="2">Data rate</th>
             <th rowspan="2" class="datasize-column">Data size</th>
           <% end %>
-          <th colspan="2">vnodes count</th>
+          <!--<th colspan="2">vnodes count</th>-->
+          <th colspan="<%= @stats_hash['routing']['redundant'] %>">vnodes count</th>
           <% if session[:user_type] == 'root' %>
             <th rowspan="2" class="button-column">&nbsp;</th>
           <% end %>
         </tr>
         <tr>
           <th class="vnodes-column">Primary</th>
-          <th class="vnodes-column">Secondary</th>
+          <% (@stats_hash['routing']['redundant'].to_i - 1).times{|i| %>
+            <th class="vnodes-column">Secondary<%= i+1 %></th>
+          <% } %>
         </tr>
       </thead>
       <tbody class="table-contents">
@@ -219,12 +222,12 @@
                 <% if is_active?(info["status"]) %>
                   <div class="progress progress-striped active" >
                     <span class="progress-bar"  role="progressbar" aria-valuenow="<%= current_size_rate(info["size"]) %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= current_size_rate(info["size"]) %>%">
-                       <% if current_size_rate(info["size"]) >= 30.0 %>
+                       <% if current_size_rate(info["size"]) >= 40.0 %>
                          <%= current_size_rate(info["size"]) %> %
                        <% end %>
                     </span>
                     <span class="rate-count">
-                    <% if current_size_rate(info["size"]) < 30.0 %>
+                    <% if current_size_rate(info["size"]) < 40.0 %>
                       (<%= current_size_rate(info["size"]) %> %)
                     <% end %>
                     <span>
@@ -246,12 +249,14 @@
                 <%= info["primary_nodes"] %>
               </span>
             </td>
-            <!-- Secondary nodes-->
-            <td>
-              <span id="secondary-nodes-<%= instance.gsub(/[^0-9]/,"") %>">
-                <%= info["secondary_nodes"] %>
-              </span>
-            </td>
+
+            <% (@stats_hash['routing']['redundant'].to_i - 1).times{|i|  %>
+              <td>
+                <span id="secondary-nodes<%= i+1 %>-<%= instance.gsub(/[^0-9]/,'') %>">
+                  <%= info["secondary_nodes#{i+1}"] %>
+                </span>
+              </td>
+            <% } %>
 
             <!-- release/rbalse button(for root user) -->
             <% if session[:user_type] == 'root' %>
