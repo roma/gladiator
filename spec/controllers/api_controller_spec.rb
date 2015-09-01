@@ -107,7 +107,7 @@ describe ApiController do
         expect(response.status).to eq(200)
       end
 
-      it "get correct infomation" do
+      it "[2-2] get correct infomation" do
         hash_correct = JSON.parse(response.body)
 
         expect(hash_correct.size).to be > 0
@@ -123,10 +123,15 @@ describe ApiController do
           expect(value["size"].class).to be Fixnum
           expect(value["size"]).to be > 0
           expect(value["version"]).to match(/^(\d+\.\d+\.\d+)[-]*p*[\d]*/)
+          expect(value["redundant"].class).to eq Fixnum
+          expect(value["redundant"]).to be > 1
           expect(value["primary_nodes"].class).to eq Fixnum
           expect(value["primary_nodes"]).to be > 0
-          expect(value["secondary_nodes"].class).to eq Fixnum
-          expect(value["secondary_nodes"]).to be > 0
+          (value["redundant"] - 1).times{|i|
+            expect(value["secondary_nodes#{i+1}"].class).to eq Fixnum
+            expect(value["secondary_nodes#{i+1}"]).to be > 0
+          }
+
         }
       end
     end
