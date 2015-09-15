@@ -70,7 +70,8 @@ describe Roma do
       "routing" => [
         "fail_cnt_threshold",
         "fail_cnt_gap",
-        "auto_recover"
+        "auto_recover",
+        "enabled_failover"
       ],
       "connection" => [
         "accepted_connection_expire_time",
@@ -93,6 +94,13 @@ describe Roma do
             it_should_behave_like 'validation check', column, "true",     "normal"
             it_should_behave_like 'validation check', column, "false",    "normal"
             it_should_behave_like 'validation check', column, "on",       "Unexpected"
+            it_should_behave_like 'validation check', column, "hogehoge", "Character"
+            it_should_behave_like 'validation check', column, nil,        "nil"
+          elsif column == "enabled_failover" 
+            it_should_behave_like 'dynamic cmd check', column, "on", group, "boolean"
+            it_should_behave_like 'validation check', column, "on",       "normal"
+            it_should_behave_like 'validation check', column, "off",      "normal"
+            it_should_behave_like 'validation check', column, "true",     "Unexpected"
             it_should_behave_like 'validation check', column, "hogehoge", "Character"
             it_should_behave_like 'validation check', column, nil,        "nil"
           else
@@ -198,7 +206,7 @@ describe Roma do
     context "normal(all instance's status is active)" do
       routing_info = roma.get_routing_info(active_routing_list)
 
-      it_should_behave_like 'get_routing_info_check', routing_info
+      it_should_behave_like 'get_routing_info_check', routing_info, roma.get_stats["storages[roma]"]["storage.st_class"]
     end
 
     context "status change check(recover)" do

@@ -18,7 +18,7 @@ shared_examples_for 'dynamic cmd check' do |key, value, group, pattern|
   end
   it "[2-3]Return param check[key=>#{key} / value = #{value} / check pattern=> msg is 'STORED']" do
     dynamic.values.each{|v|
-      if key == "dns_caching"
+      if key =~ /^(dns_caching|enabled_failover)$/
         expect(v.chomp).to eq("ENABLED")
       elsif key == "sub_nid"
         expect(v.chomp).to eq("ADDED")
@@ -42,6 +42,7 @@ shared_examples_for 'dynamic cmd check' do |key, value, group, pattern|
     end
   when "boolean"
     it "[2-5]Reflected check[key=>#{key} / value = #{value}]" do
+      value = "true" if key == "enabled_failover" && value == "on"
       expect(actual_stats_normal[group][key].chomp ).to eq(value)
     end
   else
@@ -65,7 +66,7 @@ shared_examples_for 'validation check' do |key, value, pattern, continous_limit_
     end
 
   when "under0", "Over Limit", "Character", "Over Length", "Unexpected"
-    if key == "dns_caching" || key == "auto_recover" || key == "lost_action"
+    if key =~ /^(dns_caching|auto_recover|lost_action|enabled_failover)$/
       it "[2-8][error test] key=>#{key}, value=>#{value} / test pattern=>#{pattern} check" do
         expect(roma.check_param(key, value)).to be_false
         err = error_msg(key,  continous_limit_pattern)
@@ -116,6 +117,8 @@ def error_msg(key, continous_limit_pattern = nil)
     "#{key.capitalize.gsub(/_/, " ")}  : Unexpected Error. This value is required"
   when "auto_recover"
     "#{key.capitalize.gsub(/_/, " ")}  : Unexpected Error. This value is required"
+  when "enabled_failover"
+    "#{key.capitalize.gsub(/_/, " ")}  : Unexpected Error. This value is required"
   when "log_shift_size"
     "#{key.capitalize.gsub(/_/, " ")}  : number must be from 4096 to 2147483647."
   when "log_shift_age"
@@ -133,7 +136,7 @@ def error_msg(key, continous_limit_pattern = nil)
   end
 end
 
-shared_examples_for 'get_routing_info_check' do |routing_info|
+shared_examples_for 'get_routing_info_check' do |routing_info, st_class|
   it "[3-1]" do expect(routing_info).to be_a_kind_of(Hash) end # Hash or Not
   it "[3-2]" do expect(routing_info.size).to be > 1 end # over 2 instances
   it "[3-3]" do expect(routing_info.keys.uniq!).to be nil end # duplicate check
@@ -147,8 +150,10 @@ shared_examples_for 'get_routing_info_check' do |routing_info|
     it "[3-7]" do expect(info["status"]).to be_a_kind_of(String) end
     it "[3-8]" do expect(info["status"]).to eq("active") end # all instance's status should be active
     # Size check
-    it "[3-9]" do expect(info["size"]).to be_a_kind_of(Fixnum) end
-    it "[3-10]" do expect(info["size"]).to be > 209715200 end # 1 tc file is over 20 MB at least
+    if st_class == "TCStorage"
+      it "[3-9]" do expect(info["size"]).to be_a_kind_of(Fixnum) end
+      it "[3-10]" do expect(info["size"]).to be > 209715200 end # 1 tc file is over 20 MB at least
+    end
     # Version check
     it "[3-11]" do expect(info["version"]).to be_a_kind_of(String) end
     it "[3-12]" do expect(info["version"]).to match(/^\d\.\d\.\d+[-dev]*$|^\d\.\d\.\d+\-p\d+$/) end #/^\d\.\d\.\d+\-p\d+$/ is for 0.8.13-p1

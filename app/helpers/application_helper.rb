@@ -26,7 +26,15 @@ module ApplicationHelper
   end
 
   def memory_mode?(stats_hash)
-    if stats_hash['storages[roma]']['storage.option'].size == 0
+    if stats_hash['storages[roma]']['storage.st_class'] == "RubyHashStorage"
+      return true
+    else
+      return false
+    end
+  end
+
+  def groonga_mode?(stats_hash)
+    if stats_hash['storages[roma]']['storage.st_class'] == "GroongaStorage"
       return true
     else
       return false

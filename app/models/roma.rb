@@ -28,7 +28,8 @@ class Roma
     :dns_caching,
     :key_name,
     :value,
-    :expire_time
+    :expire_time,
+    :enabled_failover
   attr_reader :stats_hash
   
   validates :dcnice,
@@ -116,7 +117,7 @@ class Roma
     :numericality => { 
       :only_integer => true,
       :greater_than_or_equal_to => 0,
-      :message =>' : parameter should be digit & over 0'  }
+      :message =>' : parameter should be digit & over 0' }
 
   def initialize(params = nil)
     super(params)
@@ -155,6 +156,9 @@ class Roma
       errors.add(k, " : Unexpected Error. This value is required")
       return false
     elsif k == "lost_action" && !["auto_assign", "shutdown"].include?(v)
+      errors.add(k, " : Unexpected Error. This value is required")
+      return false
+    elsif k == "enabled_failover" && !["on", "off"].include?(v)
       errors.add(k, " : Unexpected Error. This value is required")
       return false
     else

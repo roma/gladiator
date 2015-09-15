@@ -152,7 +152,7 @@ module ClusterHelper
     routing_info.each{|instance, info|
       sum_secondary = 0
       if info["redundant"]
-        info["redundant"].times{|i|
+        (info["redundant"]-1).times{|i|
           sum_secondary += info["secondary_nodes#{i+1}"]
         }
       end

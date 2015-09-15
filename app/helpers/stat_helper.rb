@@ -1,10 +1,12 @@
 module StatHelper
 
   def check_skip_columns(column, stats_hash)
+    # skip each file's path
     if /^storage\[\d*\]/ =~ column
       return true
     end
-    if memory_mode?(stats_hash)
+
+    if memory_mode?(stats_hash) || groonga_mode?(stats_hash)
       return true if /storage\.option|storage\.safecopy_stats/ =~ column
     end
   end
@@ -576,6 +578,16 @@ module StatHelper
           dns caching func is going or not.
        	  dns info keep in each instance as a cache.
         EOS
+      when "log_level"
+        return <<-EOS
+          Log level of ROMA main unit.<br>
+       	  You can choose among the [debug|error|warn|info].
+        EOS
+      when "enabled_failover"
+        return <<-EOS
+          Whether failover function is activated or not.<br>
+       	  Basically please keep activated(true).
+        EOS
     end
   end
 
@@ -639,6 +651,8 @@ module StatHelper
         Constants::DEFAULT_DESCRIPTOR_TABLE_SIZE
       when "dns_caching"
         Constants::DEFAULT_DNS_CACHING
+      when "enabled_failover"
+        Constants::DEFAULT_ENABLED_FAILOVER
     end
   end
 
@@ -656,6 +670,8 @@ module StatHelper
         Constants::LIST_CONTINUOUS_LIMIT
       when "sub_nid"
         Constants::LIST_SUB_NID
+      when "enabled_failover"
+        Constants::LIST_ENABLED_FAILOVER
       #when "latency_log"
       #  Constants::LIST_LATENCY_LOG
       #when "latency_check_cmd"
@@ -729,6 +745,8 @@ module StatHelper
         "set_descriptor_table_size"
       when "dns_caching"
         "switch_dns_caching"
+      when "enabled_failover"
+        "switch_failover"
     end
   end
 
