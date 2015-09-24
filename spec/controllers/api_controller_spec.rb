@@ -116,7 +116,7 @@ describe ApiController do
           expect(hash_correct[key].size).to be > 0
         }
         hash_correct.each_key{|key|
-          expect(key).to match(/^(\d+\.\d+\.\d+\.\d+)_(\d+)$|^[0-9a-zA-Z]+_(\d+)$/)
+          expect(key).to match(/^(\d+\.\d+\.\d+\.\d+)_(\d+)$|^[0-9a-zA-Z\.]+_(\d+)$/) # /ip|hostname(fqdn)/
         }
         hash_correct.each_value{|value|
           expect(value["status"]).to match(/active|inactive|release|recover|unknown|join/)
