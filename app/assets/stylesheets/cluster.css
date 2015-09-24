@@ -199,6 +199,26 @@ li.version-diff-info {
 }
 
 /**-----------------------------
+  Storage Type
+-------------------------------- **/
+
+.cluster-type-panel {
+  background-color: #f8d1d1;
+  font-size: 22px;
+  margin: 10px 0;
+  padding: 10px;
+  width: 280px;
+}
+
+.cluster-type-panel .panel-name {
+  color: white;
+  
+}
+.cluster-type-panel .panel-value {
+  text-align: center;
+}
+
+/**-----------------------------
   Tables 
 -------------------------------- **/
 .vnodes-column {

@@ -153,6 +153,25 @@
   </div>
 <% end %>
 
+<% if chk_roma_version(@stats_hash['others']['version']) >= Constants::VERSION_1_1_0 %>
+  <div class='cluster-type-panel'>
+    <div class='panel-name'>Storage Type</div>
+    <div class='panel-value'>
+      <% case @stats_hash['storages[roma]']['storage.st_class'] %>
+      <% when 'RubyHashStorage' %> 
+        <%= image_tag 'ruby_logo.png', :width => '50' %>
+        Memory Mode
+      <% when 'TCStorage' %>
+        <%= image_tag 'tc_logo.png', :width => '200'%>
+      <% when 'GroongaStorage' %>
+        <%= image_tag 'groonga_logo.png', :width => '200' %>
+      <% else %>
+        <p>others</p>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
 <div class="instances-information">
   <button class="reset-filter btn btn-primary">Reset Filter</button>
   <div class="instance-table">
