@@ -194,7 +194,7 @@
         <tr>
           <th class="vnodes-column">Primary</th>
           <% (@stats_hash['routing']['redundant'].to_i - 1).times{|i| %>
-            <th class="vnodes-column">Secondary<%= i+1 %></th>
+            <th class="vnodes-column filter-false">Secondary<%= i+1 %></th>
           <% } %>
         </tr>
       </thead>

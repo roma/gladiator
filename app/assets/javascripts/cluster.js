@@ -56,9 +56,6 @@ $(window).load(function() {
         widgetOptions : { 
           filter_reset : 'button.reset-filter',
           filter_cssFilter : 'tablesorter-filter', 
-          filter_functions : {
-            2 : true
-          }
         } 
     });
 
