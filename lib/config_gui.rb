@@ -1,14 +1,14 @@
 module ConfigGui
   # input your ROMA's ip address or hostname
-  HOST = ""
+  HOST = ''
 
   # input your ROMA's port No.
-  PORT = ""
+  PORT = ''
 
   # set your account infomation
   # [:username] and [:password] are set a limit by 30 characters.
   ROOT_USER = [
-    ###{:username => 'input your username', :password => 'input passsword', :email => '[optional]gravatar's email address},
+    ###{:username => 'input your username', :password => 'input passsword', :email => '(optional)gravatar's email address},
     #{:username => '', :password => '', :email => '' },
   ]
 

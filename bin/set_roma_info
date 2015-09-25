@@ -1,0 +1,90 @@
+#!/usr/bin/env ruby
+require 'pathname'
+
+base_path = Pathname(__FILE__).dirname.parent.expand_path
+CONFIG_PATH = "#{base_path}/lib/config_gui.rb"
+$LOAD_PATH.unshift("#{base_path}/lib")
+
+require 'config_gui'
+
+class SetRomaInfo
+  def initialize
+    if (ConfigGui::HOST != '' || ConfigGui::PORT != '')
+      puts "ROMA info was already set.\r\nPlease check config file(gladiator/lib/config_gui.rb)."
+      exit
+    end
+
+    @body = ""
+    open(CONFIG_PATH, "r") do |f|
+      @body = f.read
+    end
+  end
+
+  def save_data(host, port)
+    replace_data(host, port)
+    write_config
+    puts "ADDED\r\n\tHOST => '#{host}'\r\n\tPORT => '#{port}'\r\n"
+  end
+
+  def brank_check(str)
+    while str == '' do
+      print "> "
+      str = gets.chomp!
+    end
+    str
+  end 
+
+  private
+
+  def replace_data(host, port)
+    @body =~ /(HOST = )''/ 
+    @body.gsub!(/HOST = ''/, "#{$1}'#{host}'")
+
+    @body =~ /(PORT = )''/ 
+    @body.gsub!(/PORT = ''/, "#{$1}'#{port}'")
+  end
+
+  def write_config
+    open(CONFIG_PATH, "r+") {|f|
+      f.flock(File::LOCK_EX)
+      f.puts @body
+      f.truncate(f.tell)
+    }
+  end
+
+end # end of class SetRomaInfo
+
+begin
+  manager = SetRomaInfo.new
+  puts "\e[H\e[2J"
+  
+  ### host
+  print "Please input roma host info(ip or hostname)\r\n> "
+  host = manager.brank_check(gets.chomp!)
+  puts "\r\n"
+
+  ### port
+  print "Please input ROMA's 1 port No.\r\n> "
+  port = manager.brank_check(gets.chomp!)
+  puts "\r\n"
+
+  ### result
+  puts "\e[H\e[2J"
+  
+  puts "=============================================="
+  puts "HOST     : #{host}"
+  puts "PORT NO. : #{port}"
+  puts "=============================================="
+  puts "\r\n"
+  
+  print "Would this be OK?(y/n)\r\n> "
+  confirm = manager.brank_check(gets.chomp!)
+  if confirm =~ /^(y|yes)$/
+    manager.save_data(host, port)
+  else
+    puts "set_roma_info process was cancelled."
+  end
+
+rescue
+  puts "Unexception Error was happened.\r\nPlease execute again or input conf file directly"
+end
