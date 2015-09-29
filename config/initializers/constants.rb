@@ -3,7 +3,7 @@
 module Constants
   private
   # version
-  VERSION = "1.2.0-dev"
+  VERSION = "1.2.0"
 
   # ROMA bit shifted version
   VERSION_0_8_11 = 2059
