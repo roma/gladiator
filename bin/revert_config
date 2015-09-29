@@ -1,0 +1,58 @@
+#!/usr/bin/env ruby
+require 'pathname'
+
+base_path = Pathname(__FILE__).dirname.parent.expand_path
+CONFIG_PATH = "#{base_path}/lib/config_gui.rb"
+CONFIG_ORG_PATH = "#{base_path}/lib/config_gui.rb_org"
+$LOAD_PATH.unshift("#{base_path}/lib")
+
+require 'config_gui'
+
+class Revert
+  def initialize
+    @body = ""
+    open(CONFIG_ORG_PATH, "r") do |f|
+      @body = f.read
+    end
+  end
+
+  def revert_data
+    write_config
+    puts "REVERTED"
+  end
+
+  def brank_check(str)
+    while str == '' do
+      print "> "
+      str = gets.chomp!
+    end
+    str
+  end 
+
+  private
+
+  def write_config
+    open(CONFIG_PATH, "r+") {|f|
+      f.flock(File::LOCK_EX)
+      f.puts @body
+      f.truncate(f.tell)
+    }
+  end
+
+end # end of class AddUser
+
+
+begin
+  manager = Revert.new
+  puts "\e[H\e[2J"
+  print "Do you really want to revert config?(y/n)\r\n> "
+  confirm = manager.brank_check(gets.chomp!)
+  if confirm =~ /^(y|yes)$/
+    manager.revert_data
+  else
+    puts "revert config process was cancelled."
+  end
+
+rescue
+  puts "Unexception Error was happened.\r\nPlease execute again or input conf file directly"
+end
