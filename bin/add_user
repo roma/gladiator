@@ -1,76 +1,8 @@
 #!/usr/bin/env ruby
-require 'pathname'
-
-base_path = Pathname(__FILE__).dirname.parent.expand_path
-CONFIG_PATH = "#{base_path}/lib/config_gui.rb"
-$LOAD_PATH.unshift("#{base_path}/lib")
-
-require 'config_gui'
-
-class AddUser
-  def initialize
-    get_current_users
-    @body = ""
-    open(CONFIG_PATH, "r") do |f|
-      @body = f.read
-    end
-  end
-
-  def duplicate_check(name)
-    @root_user.include?(name) | @normal_user.include?(name)
-  end
-
-  def save_data(name, passwd, gravatar, role)
-    new_user = "{:username => '#{name}', :password => '#{passwd}', :email => '#{gravatar}' }"
-    replace_user(new_user, role)
-    write_config
-    puts "ADDED\r\n\t{:username => '#{name}', :password => '#{passwd.gsub(/./, '*')}', :email => '#{gravatar}' }"
-  end
-
-  def brank_check(str)
-    while str == '' do
-      print "> "
-      str = gets.chomp!
-    end
-    str
-  end 
-
-  private
-
-  def get_current_users
-    @root_user = []
-    @normal_user = []
-    ConfigGui::ROOT_USER.each{|info|
-      @root_user << info[:username]
-    }
-    ConfigGui::NORMAL_USER.each{|info|
-      @normal_user << info[:username]
-    }
-  end
-
-  def replace_user(new_user, role)
-    if role == 'root'
-      mode = "ROOT_USER"
-    elsif role == 'normal'
-      mode = "NORMAL_USER"
-    end
-    @body =~ /(#{mode} = \[[^\]]*)\]/ 
-    @body.gsub!(/#{mode} = \[[^\]]*\]/, "#{$1}\s\s#{new_user},\n\s\s]")
-  end
-
-  def write_config
-    open(CONFIG_PATH, "r+") {|f|
-      f.flock(File::LOCK_EX)
-      f.puts @body
-      f.truncate(f.tell)
-    }
-  end
-
-end # end of class AddUser
-
+require_relative 'config_manager'
 
 begin
-  manager = AddUser.new
+  manager = ConfigManager.new
   puts "\e[H\e[2J"
   
   ### user name
@@ -123,9 +55,10 @@ begin
   print "Would this be OK?(y/n)\r\n> "
   confirm = manager.brank_check(gets.chomp!)
   if confirm =~ /^(y|yes)$/
-    manager.save_data(name, passwd, gravatar, role)
+    manager.save_user(name, passwd, gravatar, role)
+    puts "ADDED\r\n\t{:username => '#{name}', :password => '#{passwd.gsub(/./, '*')}', :email => '#{gravatar}' }"
   else
-    puts "add_user process was cancelled."
+    puts "[#{__FILE__}] process was cancelled."
   end
 
 rescue

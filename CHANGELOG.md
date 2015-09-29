@@ -1,4 +1,5 @@
 # [1.2.0](http://roma-kvs.org/blogs/blog-entry-13.html) (Sep 30 2015)
+* add reverting config tool [hiroaki-iwase] 3c93ad3
 * add how to contribute project to README [hiroaki-iwase] 42ed684
 * deactivate filter function all secondary vnodes column [hiroaki-iwase] 4bfc40c
 * add tool of add_user, confirm_user, set_roma_info [hiroaki-iwase] a0aba99
