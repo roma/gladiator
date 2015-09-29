@@ -49,8 +49,8 @@ If you would like to contribute, please...
 3. boot Gladiator and ROMA
 4. Run Unit Test
   * run `rspec spec/models/roma_spec.rb`
-  * run `rspec spec/controllers/api_controller_spec.rb` 
-  (if unit test fails, please check 'lib/config_gui.rb'. If it has no prob, run it again - it's fickle).
+  * run `rspec spec/controllers/api_controller_spec.rb`  
+ (if unit test fails, please check 'lib/config_gui.rb'. If it has no prob, run it again - it's fickle).
 5. Create a pull request.
 
 Contributions, improvements, comments and suggestions are welcome!
