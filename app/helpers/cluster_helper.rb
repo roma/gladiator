@@ -54,9 +54,6 @@ module ClusterHelper
   end
 
   def get_button_option(command, stats_hash, routing_info, target_instance=nil)
-    # for past version
-    return "disabled" if command == 'recover' && !can_recover_end?(stats_hash)
-
     case command
     when "recover"
       return nil if can_i_recover?(stats_hash, routing_info)
@@ -67,14 +64,6 @@ module ClusterHelper
     end
 
     return "disabled"
-  end
-
-  def can_recover_end?(stats_hash)
-      if stats_hash['routing']['lost_action'] != 'auto_assign' && chk_roma_version(stats_hash['others']['version']) < Constants::VERSION_1_0_0 && stats_hash['stats']['enabled_repetition_host_in_routing'] == 'false'
-        return false
-      end
-
-      return true
   end
 
   def can_i_recover?(stats_hash, routing_info)
@@ -125,14 +114,6 @@ module ClusterHelper
     end
 
     true
-  end
-
-  def can_i_use_snapshot?(stats_hash)
-    if chk_roma_version(stats_hash['others']['version']) >= Constants::VERSION_0_8_14
-      return true
-    else
-      return false
-    end
   end
 
   # check "--enabled_repeathost" option is on or off.
@@ -186,9 +167,7 @@ module ClusterHelper
   end
 
   def health_btn_color(stats_hash)
-    if chk_roma_version(@stats_hash['others']['version']) <= Constants::VERSION_0_8_11
-      return 'grey'
-    elsif @stats_hash["routing"]["lost_vnodes"].chomp != "0"
+    if @stats_hash["routing"]["lost_vnodes"].chomp != "0"
       return 'red'
     elsif @stats_hash["routing"]["short_vnodes"].chomp !="0"
       return 'yellow'

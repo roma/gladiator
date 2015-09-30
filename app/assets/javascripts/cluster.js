@@ -1,13 +1,5 @@
 $(window).load(function() {
 
-    //for past version
-    if ($('.recover-restriction-msg')[0]) {
-        $('#recover-button').css({"background-color":"grey", "border":"none"});
-    }
-    if ($('.restriction-health-button')[0]) {
-        $('.table-contents td:nth-of-type(3)').css({"background-color":"silver", "color":"#696969"});
-    }
-
     //Just Booting
     if (gon.just_booting) {
         var element = $('.table-contents');
