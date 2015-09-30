@@ -239,7 +239,7 @@ $(window).load(function() {
         $('.join-explanation').text("Please execute below command on your ROMA server.");
         $('.join-command').css({"padding":"10px"});
         $('.join-command').html(
-            "$ cd ${ROMA directory}/ruby/server<br>" + 
+            "$ cd ${ROMA directory}<br>" + 
             "$ bin/romad "+newHost+" -p "+newPort+" -d -j "+currentHost+"_"+currentPort+" --config "+configPath+" "+repetitionOption
         );
     }
