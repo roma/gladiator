@@ -9,22 +9,6 @@ module ApplicationHelper
     raise
   end
 
-  def memory_mode?(stats_hash)
-    if stats_hash['storages[roma]']['storage.st_class'] == "RubyHashStorage"
-      return true
-    else
-      return false
-    end
-  end
-
-  def groonga_mode?(stats_hash)
-    if stats_hash['storages[roma]']['storage.st_class'] == "GroongaStorage"
-      return true
-    else
-      return false
-    end
-  end
-
   def storage_type_is_tc?(stats_hash)
     # for v1.0.0
     if chk_roma_version(stats_hash['others']['version']) == Constants::VERSION_1_0_0 && @stats_hash['storages[roma]']['storage[0].fsiz']

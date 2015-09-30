@@ -1,12 +1,12 @@
 module StatHelper
 
   def check_skip_columns(column, stats_hash)
-    # skip each file's path
-    if /^storage\[\d*\]/ =~ column
+    # skip each srorage file's path and primary/secondary nodes
+    if /^storage\[\d*\]|primary|secondary/ =~ column
       return true
     end
 
-    if memory_mode?(stats_hash) || groonga_mode?(stats_hash)
+    unless storage_type_is_tc?(stats_hash)
       return true if /storage\.option|storage\.safecopy_stats/ =~ column
     end
   end
