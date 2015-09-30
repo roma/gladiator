@@ -26,6 +26,12 @@ module ApplicationHelper
   end
 
   def storage_type_is_tc?(stats_hash)
+    # for v1.0.0
+    if chk_roma_version(stats_hash['others']['version']) == Constants::VERSION_1_0_0 && @stats_hash['storages[roma]']['storage[0].fsiz']
+      return true
+    end
+
+    # for v1.1.0-
     if stats_hash['storages[roma]']['storage.st_class'] == 'TCStorage'
       return true
     else
