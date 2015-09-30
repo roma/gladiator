@@ -6,10 +6,6 @@ module Constants
   VERSION = "1.2.0"
 
   # ROMA bit shifted version
-  VERSION_0_8_11 = 2059
-  VERSION_0_8_12 = 2060
-  VERSION_0_8_13 = 2061
-  VERSION_0_8_14 = 2062
   VERSION_1_0_0  = 65536
   VERSION_1_1_0  = 65792
   VERSION_1_2_0  = 66048
@@ -64,5 +60,4 @@ module Constants
   LIST_WB_COMMAND_MAP                  = {}
   LIST_ENABLED_FAILOVER                = ["on", "off"]
   
-
 end

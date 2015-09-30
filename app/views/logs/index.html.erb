@@ -1,13 +1,6 @@
 <div class="main-contents-name">Log</div>
 <div class="col-xs-12">
-  <% if past_version?(@stats_hash) %>
-    <div class="restriction-panel restriction-panel-logs">
-      <div class="restriction-msg restriction-msg-logs">
-        You can Not use this function<br>in this ROMA version.
-      </div>
-    </div>
-    <button class="btn btn-info" disabled>Get Logs</button>
-  <% elsif @stats_hash['routing']['min_version'].to_i < Constants::VERSION_1_1_0 %>
+  <% if @stats_hash['routing']['min_version'].to_i < Constants::VERSION_1_1_0 %>
     <a href="show_logs" type="button" class="btn btn-info" id="logs-button">
       <%= image_tag "ajax-loader.gif", :class=>"access-loader" %>
       <span id="log-button-msg">Get Logs</span>

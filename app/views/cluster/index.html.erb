@@ -12,24 +12,10 @@
 </button>
 
 <ul class="error-message">
-  <% if chk_roma_version(@stats_hash['others']['version']) <= Constants::VERSION_0_8_11 %>
-    <li class="status-caution restriction-health-button">
-      <span class="no-response-icon"><i class="icon-question-sign"></i></span>
-      Health button function is not supported ROMA v0.8.11.
-    </li>
-  <% end %>
-  
   <% if short_vnodes?(@stats_hash) %>
     <li class="status-caution">
       <span id="short-vnodes-caution"><i class="icon-warning-sign"></i></span>
-        <!-- for past version -->
-        <% if !can_recover_end?(@stats_hash) %>
-          <span class="recover-restriction-msg">
-             Recover is not supported with this ROMA version and this lost_action setting.
-          </span>
-        <% else %>
-          ROMA have short vnodes. You can solve by executing "Recover" button.
-        <% end %>
+      ROMA have short vnodes. You can solve by executing "Recover" button.
     </li>
   <% end %>
   
@@ -83,13 +69,12 @@
     <td class="panel-roma-version">
       ROMA version
       <div class="panel-value">
-        <% if past_version?(@stats_hash) %>
+        <% if chk_roma_version(@stats_hash['others']['version']) < Constants::VERSION_1_0_0 %>
           <span id="short-vnodes-alert"><i class="icon-warning-sign"></i></span>
         <% end %>
         <%= @stats_hash["others"]["version"] %>
         <ul class ="error-instance-small">
-          <% if past_version?(@stats_hash) %><li>Unsupport version</li><% end %>
-          <% if eosl_expired?(@stats_hash) %><li>EOSL expired</li><% end %>
+          <% if chk_roma_version(@stats_hash['others']['version']) < Constants::VERSION_1_0_0 %><li>Unsupport version</li><% end %>
           <% @routing_info.each do |instance, info| %>
             <% if chk_main_version(info["version"]) %>
               <li class="version-diff-info"><%= "#{instance} using #{info["version"]}" %></li>
@@ -202,7 +187,7 @@
         <% 
         index = 0
         @routing_info.each do |(instance, info)|
-          if info["status"] == "active" || chk_roma_version(@stats_hash['others']['version']) <= Constants::VERSION_0_8_11 %>
+          if info["status"] == "active" %>
             <tr>
           <% elsif info["status"] =~ /inactive|no_response/ %>
             <tr class="active">
@@ -223,9 +208,6 @@
                 <% elsif info["status"] == "no_response" %>
                   <span class="no-response-icon"><i class="icon-question-sign"></i></span>
                   <%= info["status"] %>
-                <% elsif chk_roma_version(@stats_hash['others']['version']) <= Constants::VERSION_0_8_11 %>
-                  <span class="no-response-icon"><i class="icon-question-sign"></i></span>
-                  unsupported
                 <% elsif info["status"] == "active" %>
                   <div class="health-button green small_size" style="display: inline-block;"></div>
                   <%= info["status"] %>

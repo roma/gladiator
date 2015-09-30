@@ -147,11 +147,6 @@
   font-size: 15px;
 }
 
-.recover-restriction-msg {
-  color: #ff0000;
-  font-size: 15px;
-}
-
 /**-----------------------------
   Status Panel
 -------------------------------- **/
@@ -259,13 +254,6 @@ td.instance-status-column {
   white-space: nowrap;
 }
  
-td.instance-status-column-past-version {
-  min-width: 100px;
-  text-align: left;
-  white-space: nowrap;
-  background-color: grey;
-} 
-
 td.progress-bar-column {
   width: 300px;
   text-align: left;
@@ -279,14 +267,6 @@ td.progress-bar-column {
 .no-response-icon {
   color: #808080;
   font-size: 17px;
-}
-
-td.past-version-status {
-  background: rgba(0,0,0,0.7);
-  color: #dddddd;
-  font-size: 14px;
-  font-weight: bold;
-  white-space: nowrap;
 }
 
 /**----------------------------------------
