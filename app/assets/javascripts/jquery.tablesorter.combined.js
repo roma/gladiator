@@ -2080,7 +2080,7 @@
 					s = s.replace(ts.regex.digitNegativeReplace, '-$1');
 				}
 				i = parseFloat(s);
-console.log(i);
+
 				// return the text instead of zero
 				return isNaN(i) ? $.trim(s) : i;
 			};

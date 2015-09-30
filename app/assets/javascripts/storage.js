@@ -65,7 +65,7 @@ $(function(){
         if (validate(port, true, true)) {
             $('.snap-explanation').text('Please execute below command on your ROMA server');
             $('.snap-command').css({"padding":"10px"});
-            $('.snap-command').html("$ cd ${ROMA directory}/ruby/server<br>" + "$ bin/cpdb " + parseInt(port, 10));
+            $('.snap-command').html("$ cd ${ROMA directory}<br>" + "$ bin/cpdb " + parseInt(port, 10));
             $('.snap-command-error').text('');
         } else {
             $('.snap-explanation').text('');

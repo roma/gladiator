@@ -145,10 +145,9 @@ $(window).load(function() {
             case "release":
                 sum_vnodes = parseInt(data["primary_nodes"]);
                 rd = parseInt(data["redundant"])
-                for(i = 0; i < rd; i++ ){
+                for(i = 0; i < rd-1; i++ ){
                     sum_vnodes += parseInt(data["secondary_nodes"+(i+1)]);
                 }
-
                 progressRate = Math.round((1-(sum_vnodes/gon.denominator)) * 1000) /10
 
                 $('#extra-progress-bar').css("width",progressRate + "%");
