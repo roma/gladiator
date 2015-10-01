@@ -114,8 +114,12 @@ $(window).load(function() {
 
                     // secondary node
                     rd = parseInt(data[instanceName]["redundant"])
-                    for(i = 0; i < rd; i++ ){
-                        updateVnodesCount(data, instanceName, "secondary_nodes"+(i+1))
+                    if (data[instanceName]["version"].match(/^1\.[01]\.0/)) {
+                        updateVnodesCount(data, instanceName, "secondary_nodes")
+                    } else {
+                        for(i = 0; i < rd-1; i++ ){
+                            updateVnodesCount(data, instanceName, "secondary_nodes"+(i+1))
+                        }
                     }
 
                     if (instanceName == gon.host+"_"+gon.port) {
@@ -137,8 +141,13 @@ $(window).load(function() {
             case "release":
                 sum_vnodes = parseInt(data["primary_nodes"]);
                 rd = parseInt(data["redundant"])
-                for(i = 0; i < rd-1; i++ ){
-                    sum_vnodes += parseInt(data["secondary_nodes"+(i+1)]);
+
+                if (data["version"].match(/^1\.[01]\.0/)) {
+                    sum_vnodes += parseInt(data["secondary_nodes"]);
+                } else {
+                    for(i = 0; i < rd-1; i++ ){
+                        sum_vnodes += parseInt(data["secondary_nodes"+(i+1)]);
+                    }
                 }
                 progressRate = Math.round((1-(sum_vnodes/gon.denominator)) * 1000) /10
 
@@ -165,10 +174,13 @@ $(window).load(function() {
             case "release":
                 sum_vnodes = parseInt(data["primary_nodes"]);
                 rd = parseInt(data["redundant"])
-                for(i = 0; i < rd; i++ ){
-                    sum_vnodes += parseInt(data["secondary_nodes"+(i+1)]);
+                if (data["version"].match(/^1\.[01]\.0/)) {
+                    sum_vnodes += parseInt(data["secondary_nodes"]);
+                } else {
+                    for(i = 0; i < rd-1; i++ ){
+                        sum_vnodes += parseInt(data["secondary_nodes"+(i+1)]);
+                    }
                 }
-
                 progressRate = Math.round((1-(sum_vnodes/gon.denominator)) * 1000) /10
 
                 if (progressRate == 100) {

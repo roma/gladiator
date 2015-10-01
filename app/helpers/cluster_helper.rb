@@ -132,7 +132,12 @@ module ClusterHelper
     return true if session[:released]
     routing_info.each{|instance, info|
       sum_secondary = 0
-      if info["redundant"]
+
+      # for v1.0.0-1.1.0
+      if info["secondary_nodes"]
+        sum_secondary += info["secondary_nodes"]
+      # for v1.2.0-
+      elsif info["redundant"]
         (info["redundant"]-1).times{|i|
           sum_secondary += info["secondary_nodes#{i+1}"]
         }
