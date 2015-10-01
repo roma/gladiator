@@ -241,11 +241,16 @@ li.version-diff-info {
 .instance-table {
   background-color: #ffffff;
   margin: 10px;
+  overflow:auto;
 }
 
 .instance-table td {
   text-align: center;
   vertical-align: middle;
+}
+
+.cluster-table {
+  margin: 0;
 }
 
 td.instance-status-column {
