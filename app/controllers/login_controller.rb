@@ -20,11 +20,10 @@ class LoginController < ApplicationController
       ###Version check(ROMA main unit)
       version = self.class.helpers.chk_roma_version(stats_hash['others']['version'])
       case version
-      when 0..2058 # earlier than v0.8.10 
-        reset_session
-        flash[:login_error] = "Gladiator don't support the version older than v0.8.11."
-        redirect_to :action => 'index' and return
-      when Constants::VERSION_0_8_11..Constants::VERSION_0_8_14
+      when 0...Constants::VERSION_1_0_0
+        #reset_session
+        #flash[:login_error] = "Gladiator don't support the version older than v1.0.0."
+        #redirect_to :action => 'index' and return
         flash[:login_error] = 'unsupport version'
         flash[:unsupport] = stats_hash['others']['version']
       when Constants::VERSION_1_0_0..Float::INFINITY # over 1.0.0

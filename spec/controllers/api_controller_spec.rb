@@ -107,7 +107,7 @@ describe ApiController do
         expect(response.status).to eq(200)
       end
 
-      it "get correct infomation" do
+      it "[2-2] get correct infomation" do
         hash_correct = JSON.parse(response.body)
 
         expect(hash_correct.size).to be > 0
@@ -116,17 +116,22 @@ describe ApiController do
           expect(hash_correct[key].size).to be > 0
         }
         hash_correct.each_key{|key|
-          expect(key).to match(/^(\d+\.\d+\.\d+\.\d+)_(\d+)$|^[0-9a-zA-Z]+_(\d+)$/)
+          expect(key).to match(/^(\d+\.\d+\.\d+\.\d+)_(\d+)$|^[0-9a-zA-Z\.]+_(\d+)$/) # /ip|hostname(fqdn)/
         }
         hash_correct.each_value{|value|
           expect(value["status"]).to match(/active|inactive|release|recover|unknown|join/)
           expect(value["size"].class).to be Fixnum
           expect(value["size"]).to be > 0
           expect(value["version"]).to match(/^(\d+\.\d+\.\d+)[-]*p*[\d]*/)
+          expect(value["redundant"].class).to eq Fixnum
+          expect(value["redundant"]).to be > 1
           expect(value["primary_nodes"].class).to eq Fixnum
           expect(value["primary_nodes"]).to be > 0
-          expect(value["secondary_nodes"].class).to eq Fixnum
-          expect(value["secondary_nodes"]).to be > 0
+          (value["redundant"] - 1).times{|i|
+            expect(value["secondary_nodes#{i+1}"].class).to eq Fixnum
+            expect(value["secondary_nodes#{i+1}"]).to be > 0
+          }
+
         }
       end
     end

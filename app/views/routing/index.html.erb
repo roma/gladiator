@@ -30,20 +30,13 @@
       <li class="list-group-item">redundancy: <%= @stats_hash["routing"]["redundant"] %></li>
       <li class="list-group-item list-striped">enabled_repetition_host? (booting option): <%= @stats_hash["stats"]["enabled_repetition_host_in_routing"] %></li>
       <li class="list-group-item">
-        <% if past_version?(@stats_hash) %>
-          <div class="restriction-panel">
-            <div class="restriction-msg restriction-msg-repetition">You can Not use this function</div>
-          </div>
-        <% end %>
         enabled_repetition_host? (routingdump): <%= @enabled_repetition_in_routingdump %>
       </li>
-      <% unless past_version?(@stats_hash) %>
-        <% if repugnant_repetition_option?(@enabled_repetition_in_routingdump, @stats_hash) %>
-          <div class="repetition-error-message">
-            <i class="icon-warning-sign"></i>
-            repetition_host option is differ between routing and booting option.
-          </div>
-        <% end %>
+      <% if repugnant_repetition_option?(@enabled_repetition_in_routingdump, @stats_hash) %>
+        <div class="repetition-error-message">
+          <i class="icon-warning-sign"></i>
+          repetition_host option is differ between routing and booting option.
+        </div>
       <% end %>
     </ul>
   </div>
@@ -58,14 +51,6 @@
 </div>
 
 <div class="col-xs-12 routing-history">
-  <% if past_version?(@stats_hash) %>
-    <div class="restriction-panel">
-      <div class="restriction-msg">
-        You can Not use this function<br>in this ROMA version.
-      </div>
-    </div>
-  <% end %>
-
   <div class="sub-contents-name">Routing history</div>
   <div class="routing-history-table">
     <% if @routing_event.size == 0 %>

@@ -54,9 +54,6 @@ module ClusterHelper
   end
 
   def get_button_option(command, stats_hash, routing_info, target_instance=nil)
-    # for past version
-    return "disabled" if command == 'recover' && !can_recover_end?(stats_hash)
-
     case command
     when "recover"
       return nil if can_i_recover?(stats_hash, routing_info)
@@ -67,14 +64,6 @@ module ClusterHelper
     end
 
     return "disabled"
-  end
-
-  def can_recover_end?(stats_hash)
-      if stats_hash['routing']['lost_action'] != 'auto_assign' && chk_roma_version(stats_hash['others']['version']) < Constants::VERSION_1_0_0 && stats_hash['stats']['enabled_repetition_host_in_routing'] == 'false'
-        return false
-      end
-
-      return true
   end
 
   def can_i_recover?(stats_hash, routing_info)
@@ -127,14 +116,6 @@ module ClusterHelper
     true
   end
 
-  def can_i_use_snapshot?(stats_hash)
-    if chk_roma_version(stats_hash['others']['version']) >= Constants::VERSION_0_8_14
-      return true
-    else
-      return false
-    end
-  end
-
   # check "--enabled_repeathost" option is on or off.
   def repetition_host?(stats_hash)
     stats_hash["stats"]["enabled_repetition_host_in_routing"].to_boolean
@@ -150,7 +131,19 @@ module ClusterHelper
   def released_flg?(routing_info)
     return true if session[:released]
     routing_info.each{|instance, info|
-      if info["primary_nodes"] == 0 && info["secondary_nodes"] == 0
+      sum_secondary = 0
+
+      # for v1.0.0-1.1.0
+      if info["secondary_nodes"]
+        sum_secondary += info["secondary_nodes"]
+      # for v1.2.0-
+      elsif info["redundant"]
+        (info["redundant"]-1).times{|i|
+          sum_secondary += info["secondary_nodes#{i+1}"]
+        }
+      end
+
+      if info["primary_nodes"] == 0 && sum_secondary == 0
         flash[:error_message] = "Did you execute release? In this case, you have to execute rbalse."
       end
     }
@@ -179,9 +172,7 @@ module ClusterHelper
   end
 
   def health_btn_color(stats_hash)
-    if chk_roma_version(@stats_hash['others']['version']) <= Constants::VERSION_0_8_11
-      return 'grey'
-    elsif @stats_hash["routing"]["lost_vnodes"].chomp != "0"
+    if @stats_hash["routing"]["lost_vnodes"].chomp != "0"
       return 'red'
     elsif @stats_hash["routing"]["short_vnodes"].chomp !="0"
       return 'yellow'

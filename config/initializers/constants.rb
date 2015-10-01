@@ -3,15 +3,13 @@
 module Constants
   private
   # version
-  VERSION = "1.1.0"
+  VERSION = "1.2.0"
 
   # ROMA bit shifted version
-  VERSION_0_8_11 = 2059
-  VERSION_0_8_12 = 2060
-  VERSION_0_8_13 = 2061
-  VERSION_0_8_14 = 2062
   VERSION_1_0_0  = 65536
   VERSION_1_1_0  = 65792
+  VERSION_1_2_0  = 66048
+  VERSION_1_3_0  = 66304
 
   # stats colomn name
   STATS_COL_NAME = ["config","stats","storages[roma]","write-behind","routing","connection","others"]
@@ -28,6 +26,8 @@ module Constants
   DEFAULT_SPUSHV_KLENGTH_WARN             = 1024
   DEFAULT_SPUSHV_VLENGTH_WARN             = 1048576
   DEFAULT_ROUTING_TRNAS_TIMEOUT           = 10080
+  DEFAULT_LOG_SHIFT_SIZE                  = 1024 * 1024 * 10
+  DEFAULT_LOG_SHIFT_AGE                   = 10
   DEFAULT_SHIFT_SIZE                      = 1024 * 1024 * 10
   DEFAULT_DO_WRITE                        = false
   DEFAULT_FAIL_CNT_THRESHOLD              = 15
@@ -44,6 +44,7 @@ module Constants
   DEFAULT_EMPOOL_EXPIRE_TIME              = 30
   DEFAULT_DESCRIPTOR_TABLE_SIZE           = 4096
   DEFAULT_DNS_CACHING                     = false
+  DEFAULT_ENABLED_FAILOVER                = true
   
   # change value list
   LIST_LOST_ACTION                     = ["auto_assign", "shutdown"]
@@ -57,6 +58,6 @@ module Constants
   LIST_LATENCY_CHECK_TIME_COUNT        = false
   LIST_DO_WRITE                        = false
   LIST_WB_COMMAND_MAP                  = {}
+  LIST_ENABLED_FAILOVER                = ["on", "off"]
   
-
 end

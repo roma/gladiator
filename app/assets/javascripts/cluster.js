@@ -1,13 +1,5 @@
 $(window).load(function() {
 
-    //for past version
-    if ($('.recover-restriction-msg')[0]) {
-        $('#recover-button').css({"background-color":"grey", "border":"none"});
-    }
-    if ($('.restriction-health-button')[0]) {
-        $('.table-contents td:nth-of-type(3)').css({"background-color":"silver", "color":"#696969"});
-    }
-
     //Just Booting
     if (gon.just_booting) {
         var element = $('.table-contents');
@@ -52,13 +44,10 @@ $(window).load(function() {
         sortList: [[0,0]],
         widthFixed: true,
         widgets: ["filter"], 
-        headers: {0: { filter: false }, 3: { filter: false }, 4: { filter: false }, 5: { filter: false },  6: { filter: false, sorter: false }, 7: { filter: false }},
+        headers: {0: { filter: false }, 3: { filter: false }, 4: { filter: false }, 5: { filter: false },  6: { filter: false, sorter: false }, 7: { filter: false }, 8: {filter: false}, 9: {filter: false}},
         widgetOptions : { 
           filter_reset : 'button.reset-filter',
           filter_cssFilter : 'tablesorter-filter', 
-          filter_functions : {
-            2 : true
-          }
         } 
     });
 
@@ -77,11 +66,31 @@ $(window).load(function() {
         calcProgressRate('join');
     }
 
+    function updateVnodesCount(data, instanceName, type) {
+        cnt = parseInt(data[instanceName][type]);
+        start = gon.routing_info[instanceName][type];
+        if (cnt < start) {
+            color = "red"
+            icon  = 'arrow-down'
+        }else if (cnt > start) {
+            color = "blue"
+            icon  = 'arrow-up'
+        }else{
+            color = ""
+            icon  = ''
+        }
+        instance = instanceName.match(/\d/g).join("");
+        $('#'+ type.replace(/_/g, "-") +'-'+instance).css("color", color)
+        $('#'+ type.replace(/_/g, "-") +'-'+instance).html(cnt+'<span><i class="icon-'+icon+'"></i></span>')
+    }
+
     function calcProgressRate(process) {
         var webApiEndPoint
         var instanceName
         var primaryVnodes
-        var secondaryVnodes
+        var cnt
+        var start
+        var rd
         var progressRate
         var host
         var protocol
@@ -100,41 +109,18 @@ $(window).load(function() {
             for(instanceName in data){
                 if (data[instanceName]["status"] != "inactive") {
 
-                    primaryVnodes   = parseInt(data[instanceName]["primary_nodes"]);
-                    secondaryVnodes = parseInt(data[instanceName]["secondary_nodes"]);
-                    startPrimaryVnodes   = gon.routing_info[instanceName]["primary_nodes"];
-                    startSecondaryVnodes = gon.routing_info[instanceName]["secondary_nodes"];
+                    // primary node
+                    updateVnodesCount(data, instanceName, "primary_nodes")
 
-                    //set vnodes count
-                    if (primaryVnodes < startPrimaryVnodes) {
-                        color_primary = "red"
-                        icon_primary  = 'arrow-down'
-                    }else if (primaryVnodes > startPrimaryVnodes) {
-                        color_primary = "blue"
-                        icon_primary  = 'arrow-up'
-                    }else{
-                        color_primary = ""
-                        icon_primary  = ''
+                    // secondary node
+                    rd = parseInt(data[instanceName]["redundant"])
+                    if (data[instanceName]["version"].match(/^1\.[01]\.0/)) {
+                        updateVnodesCount(data, instanceName, "secondary_nodes")
+                    } else {
+                        for(i = 0; i < rd-1; i++ ){
+                            updateVnodesCount(data, instanceName, "secondary_nodes"+(i+1))
+                        }
                     }
-
-                    if (secondaryVnodes < startSecondaryVnodes) {
-                        color_secondary = "red"
-                        icon_secondary  = 'arrow-down'
-                    }else if (secondaryVnodes > startSecondaryVnodes) {
-                        color_secondary = "blue"
-                        icon_secondary  = 'arrow-up'
-                    }else{
-                        color_secondary = ""
-                        icon_secondary  = ''
-                    }
-
-                    instance = instanceName.match(/\d/g).join("");
-                    //for primary nodes
-                    $('#primary-nodes-'+instance).css("color", color_primary)
-                    $('#primary-nodes-'+instance).html(primaryVnodes+'<span><i class="icon-'+icon_primary+'"></i></span>')
-                    //for secondary nodes
-                    $('#secondary-nodes-'+instance).css("color", color_secondary)
-                    $('#secondary-nodes-'+instance).html(secondaryVnodes+'<span><i class="icon-'+icon_secondary+'"></i></span>')
 
                     if (instanceName == gon.host+"_"+gon.port) {
                         $('#short-vnodes-cnt').text(data[instanceName]["short_vnodes"]);
@@ -153,9 +139,18 @@ $(window).load(function() {
     function progressBarSet(data, process) {
         switch (process) {
             case "release":
-                primaryVnodes   = parseInt(data["primary_nodes"]);
-                secondaryVnodes = parseInt(data["secondary_nodes"]);
-                progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/gon.denominator)) * 1000) /10
+                sum_vnodes = parseInt(data["primary_nodes"]);
+                rd = parseInt(data["redundant"])
+
+                if (data["version"].match(/^1\.[01]\.0/)) {
+                    sum_vnodes += parseInt(data["secondary_nodes"]);
+                } else {
+                    for(i = 0; i < rd-1; i++ ){
+                        sum_vnodes += parseInt(data["secondary_nodes"+(i+1)]);
+                    }
+                }
+                progressRate = Math.round((1-(sum_vnodes/gon.denominator)) * 1000) /10
+
                 $('#extra-progress-bar').css("width",progressRate + "%");
                 $('#extra-bar-rate').text(progressRate+ "% Complete");
                 break;
@@ -177,9 +172,17 @@ $(window).load(function() {
     function checkFinish(data, process) {
         switch (process) {
             case "release":
-                primaryVnodes   = parseInt(data["primary_nodes"]);
-                secondaryVnodes = parseInt(data["secondary_nodes"]);
-                progressRate = Math.round((1-((primaryVnodes + secondaryVnodes)/gon.denominator)) * 1000) /10
+                sum_vnodes = parseInt(data["primary_nodes"]);
+                rd = parseInt(data["redundant"])
+                if (data["version"].match(/^1\.[01]\.0/)) {
+                    sum_vnodes += parseInt(data["secondary_nodes"]);
+                } else {
+                    for(i = 0; i < rd-1; i++ ){
+                        sum_vnodes += parseInt(data["secondary_nodes"+(i+1)]);
+                    }
+                }
+                progressRate = Math.round((1-(sum_vnodes/gon.denominator)) * 1000) /10
+
                 if (progressRate == 100) {
                     $('#extra-bar-rate').text("Finished!");
                     setTimeout(function() { confirmRbalse() }, 1000);
@@ -227,7 +230,7 @@ $(window).load(function() {
         var currentPort = $('#currentPort').val();
         var configPath = $('#configPath').val();
         if ($("#repetitionCheck").prop('checked')) {
-            var repetitionOption = "--enabled_repeathost"
+            var repetitionOption = "--replication_in_host"
         }
         else {
             var repetitionOption = ""
@@ -248,7 +251,7 @@ $(window).load(function() {
         $('.join-explanation').text("Please execute below command on your ROMA server.");
         $('.join-command').css({"padding":"10px"});
         $('.join-command').html(
-            "$ cd ${ROMA directory}/ruby/server<br>" + 
+            "$ cd ${ROMA directory}<br>" + 
             "$ bin/romad "+newHost+" -p "+newPort+" -d -j "+currentHost+"_"+currentPort+" --config "+configPath+" "+repetitionOption
         );
     }

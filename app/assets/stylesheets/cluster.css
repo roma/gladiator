@@ -147,11 +147,6 @@
   font-size: 15px;
 }
 
-.recover-restriction-msg {
-  color: #ff0000;
-  font-size: 15px;
-}
-
 /**-----------------------------
   Status Panel
 -------------------------------- **/
@@ -199,6 +194,35 @@ li.version-diff-info {
 }
 
 /**-----------------------------
+  Storage Type
+-------------------------------- **/
+
+.cluster-type-panel {
+  background-color: #f8d1d1;
+  font-size: 22px;
+  margin: 10px 0;
+  padding: 10px;
+  width: 280px;
+}
+
+.cluster-type-panel .panel-name {
+  color: white;
+  filter:dropshadow(color=grey,offX= 0,offY=-1)
+  dropshadow(color=grey,offX= 1,offY= 0)
+  dropshadow(color=grey,offX= 0,offY= 1)
+  dropshadow(color=grey,offX=-1,offY= 0);
+   
+  -webkit-text-stroke-color: grey;
+  -webkit-text-stroke-width: 0.1px;
+   
+  text-shadow: grey 1px 1px 0px, grey -1px 1px 0px,
+               grey 1px -1px 0px, grey -1px -1px 0px;  
+}
+.cluster-type-panel .panel-value {
+  text-align: center;
+}
+
+/**-----------------------------
   Tables 
 -------------------------------- **/
 .vnodes-column {
@@ -226,11 +250,16 @@ li.version-diff-info {
 .instance-table {
   background-color: #ffffff;
   margin: 10px;
+  overflow:auto;
 }
 
 .instance-table td {
   text-align: center;
   vertical-align: middle;
+}
+
+.cluster-table {
+  margin: 0;
 }
 
 td.instance-status-column {
@@ -239,13 +268,6 @@ td.instance-status-column {
   white-space: nowrap;
 }
  
-td.instance-status-column-past-version {
-  min-width: 100px;
-  text-align: left;
-  white-space: nowrap;
-  background-color: grey;
-} 
-
 td.progress-bar-column {
   width: 300px;
   text-align: left;
@@ -259,14 +281,6 @@ td.progress-bar-column {
 .no-response-icon {
   color: #808080;
   font-size: 17px;
-}
-
-td.past-version-status {
-  background: rgba(0,0,0,0.7);
-  color: #dddddd;
-  font-size: 14px;
-  font-weight: bold;
-  white-space: nowrap;
 }
 
 /**----------------------------------------

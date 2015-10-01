@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+require_relative './config_manager'
+
+begin
+  manager = ConfigManager.new(true)
+  puts "\e[H\e[2J"
+  print "Do you really want to revert config?(y/n)\r\n> "
+  confirm = manager.brank_check(gets.chomp!)
+
+  if confirm =~ /^(y|yes)$/
+    manager.write_config
+    puts 'REVERTED'
+  else
+    puts "[#{__FILE__}] process was cancelled."
+  end
+
+rescue
+  puts "Unexception Error was happened.\r\nPlease execute again or input conf file directly"
+end

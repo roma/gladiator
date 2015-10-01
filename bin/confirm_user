@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+require 'pathname'
+
+base_path = Pathname(__FILE__).dirname.parent.expand_path
+CONFIG_PATH = "#{base_path}/lib/config_gui.rb"
+$LOAD_PATH.unshift("#{base_path}/lib")
+
+require 'config_gui'
+
+begin
+  print "[ROOT USER]\r\n=====================================================================================\r\n"
+  ConfigGui::ROOT_USER.each{|info|
+    puts "{:username => '#{info[:username]}', :password => '#{info[:password].gsub(/./, '*')}', :email => '#{info[:email]}' }"
+  }
+  print "=====================================================================================\r\n\r\n"
+
+  print "[NORMAL USER]\r\n=====================================================================================\r\n"
+  ConfigGui::NORMAL_USER.each{|info|
+    puts "{:username => '#{info[:username]}', :password => '#{info[:password].gsub(/./, '*')}', :email => '#{info[:email]}' }"
+  }
+  print "=====================================================================================\r\n\r\n"
+end

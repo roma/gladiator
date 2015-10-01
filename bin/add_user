@@ -1,0 +1,66 @@
+#!/usr/bin/env ruby
+require_relative 'config_manager'
+
+begin
+  manager = ConfigManager.new
+  puts "\e[H\e[2J"
+  
+  ### user name
+  print "Please input user name\r\n> "
+  name = manager.brank_check(gets.chomp!)
+  while manager.duplicate_check(name)
+    print "\r\n[#{name}] has already been used."
+    print "\r\nSo please input another user name or delete this user\r\n> "
+    name = manager.brank_check(gets.chomp!)
+  end
+  puts "\r\n"
+
+  ### passeword
+  print "Please input password\r\n> "
+  passwd = manager.brank_check(gets.chomp!)
+  puts "\r\n"
+
+  ### gravatar
+  print "[Optional]\r\nPlease input Gravatar email address.\r\n(If you don't need this process, please push enter with brank.)\r\n> "
+  gravatar = gets.chomp!
+
+  ### role
+  role = ''
+  print "Which mode do you want to add this user?\r\n(some functions are restricted to root user only)\r\n"
+  loop do 
+    print "[1] root user\r\n[2] normal user\r\n> "
+    r = gets.to_i
+    if r == 1
+      role = 'root'
+      break
+    elsif r == 2
+      role = 'normal'
+      break
+    else
+      next
+    end
+  end
+  
+  ### result
+  puts "\e[H\e[2J"
+  
+  puts "=============================================="
+  puts "user name  : #{name}"
+  puts "password   : #{passwd.gsub(/./, '*')}"
+  puts "email      : #{gravatar}"
+  puts "role       : #{role}"
+  puts "=============================================="
+  puts "\r\n"
+  
+  print "Would this be OK?(y/n)\r\n> "
+  confirm = manager.brank_check(gets.chomp!)
+  if confirm =~ /^(y|yes)$/
+    manager.save_user(name, passwd, gravatar, role)
+    puts "ADDED\r\n\t{:username => '#{name}', :password => '#{passwd.gsub(/./, '*')}', :email => '#{gravatar}' }"
+  else
+    puts "[#{__FILE__}] process was cancelled."
+  end
+
+rescue
+  puts "Unexception Error was happened.\r\nPlease execute again or input conf file directly"
+end

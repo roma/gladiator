@@ -40,20 +40,12 @@
 <!-- Snapshot -->
 <% if storage_type_is_tc?(@stats_hash) %>
   <div class="col-xs-12 snapshot-column">
-    <% unless can_i_use_snapshot?(@stats_hash) %>
-      <div class="restriction-panel">
-        <div class="restriction-msg restriction-msg-snapshot">
-          You can Not use this function<br>in this ROMA version.
-        </div>
-      </div>
-    <% end %>
-
     <div class="sub-contents-name">Snapshot</div>
     <div class="snap-command-area">
       <div class="small-contents-name">Command Generater</div>
       <div class="port-input">
         <%= text_field_tag :port, nil, {:placeholder=>"Target Port No.", :class=>"snapPort"} %>
-        <%= submit_tag " Generate ", { :class => "btn btn-info snapshot-btn allow_submit", :disabled=>(chk_roma_version(@stats_hash['others']['version']) < Constants::VERSION_0_8_14) }%>
+        <%= submit_tag " Generate ", { :class => "btn btn-info snapshot-btn allow_submit" }%>
         <div class="snap-explanation"></div>
         <div class="snap-command"></div>
         <div class="snap-command-error"></div>
@@ -61,15 +53,6 @@
     </div>
   
     <div class="status-area">
-      <% if chk_roma_version(@stats_hash['others']['version']) == Constants::VERSION_0_8_14 %>
-        <div class="col-xs-12">
-          <div class="restriction-panel">
-            <div class="restriction-msg restriction-msg-snapshot-status">
-              You can Not use this function in this ROMA version.
-            </div>
-          </div>
-      <% end %>
- 
       <div class="small-contents-name">Status</div>
       <% if flash[:snapshoting] %>
         <div class="snap-progress-area">
@@ -105,9 +88,6 @@
         <div id="lastSnapshotDate"><%= @last_snapshot_data %></div>
       </div>
     </div>
-    <% if chk_roma_version(@stats_hash['others']['version']) == Constants::VERSION_0_8_14 %>
-      </div>
-    <% end %>
 
   </div>
 <% end %>

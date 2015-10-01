@@ -11,8 +11,7 @@
 // about supported directives.
 //
 //= require jquery-2.1.1.min
-//= require jquery.tablesorter.js
-//= require jquery.tablesorter.widgets.js
+//= require jquery.tablesorter.combined.js
 //= require jquery.tablesorter.pager.js
 //= require jquery.datetimepicker.js
 //= require raphael-min.js

@@ -61,7 +61,8 @@ describe Roma do
         "hilatency_warn_time",
         "spushv_klength_warn",
         "spushv_vlength_warn",
-        "routing_trans_timeout"
+        "routing_trans_timeout",
+        "log_shift_age"
       ],
       "write-behind" => [
         "shift_size"
@@ -69,7 +70,8 @@ describe Roma do
       "routing" => [
         "fail_cnt_threshold",
         "fail_cnt_gap",
-        "auto_recover"
+        "auto_recover",
+        "enabled_failover"
       ],
       "connection" => [
         "accepted_connection_expire_time",
@@ -92,6 +94,13 @@ describe Roma do
             it_should_behave_like 'validation check', column, "true",     "normal"
             it_should_behave_like 'validation check', column, "false",    "normal"
             it_should_behave_like 'validation check', column, "on",       "Unexpected"
+            it_should_behave_like 'validation check', column, "hogehoge", "Character"
+            it_should_behave_like 'validation check', column, nil,        "nil"
+          elsif column == "enabled_failover" 
+            it_should_behave_like 'dynamic cmd check', column, "on", group, "boolean"
+            it_should_behave_like 'validation check', column, "on",       "normal"
+            it_should_behave_like 'validation check', column, "off",      "normal"
+            it_should_behave_like 'validation check', column, "true",     "Unexpected"
             it_should_behave_like 'validation check', column, "hogehoge", "Character"
             it_should_behave_like 'validation check', column, nil,        "nil"
           else
@@ -117,7 +126,8 @@ describe Roma do
 
     specific_columns = {
       "stats" => [
-        "dcnice"
+        "dcnice",
+        "log_shift_size"
       ],
       "connection" => [
         "descriptor_table_size",
@@ -137,6 +147,13 @@ describe Roma do
             it_should_behave_like 'dynamic cmd check', column, "4", group, "string"
             it_should_behave_like 'validation check', column, 5,          "normal"
             it_should_behave_like 'validation check', column, 10,         "Over Length"
+            it_should_behave_like 'validation check', column, -50,        "under0"
+            it_should_behave_like 'validation check', column, 9999999999, "Over Limit"
+            it_should_behave_like 'validation check', column, "hogehoge", "Character"
+            it_should_behave_like 'validation check', column, nil,        "nil"
+          elsif column == "log_shift_size"
+            it_should_behave_like 'dynamic cmd check', column, "4096", group, "string"
+            it_should_behave_like 'validation check', column, 4096,       "normal"
             it_should_behave_like 'validation check', column, -50,        "under0"
             it_should_behave_like 'validation check', column, 9999999999, "Over Limit"
             it_should_behave_like 'validation check', column, "hogehoge", "Character"
@@ -189,7 +206,7 @@ describe Roma do
     context "normal(all instance's status is active)" do
       routing_info = roma.get_routing_info(active_routing_list)
 
-      it_should_behave_like 'get_routing_info_check', routing_info
+      it_should_behave_like 'get_routing_info_check', routing_info, roma.get_stats["storages[roma]"]["storage.st_class"]
     end
 
     context "status change check(recover)" do

@@ -10,6 +10,8 @@ class Roma
     :spushv_klength_warn,
     :spushv_vlength_warn,
     :routing_trans_timeout,
+    :log_shift_size,
+    :log_shift_age,
     :shift_size,
     :fail_cnt_threshold,
     :fail_cnt_gap,
@@ -26,7 +28,8 @@ class Roma
     :dns_caching,
     :key_name,
     :value,
-    :expire_time
+    :expire_time,
+    :enabled_failover
   attr_reader :stats_hash
   
   validates :dcnice,
@@ -44,6 +47,20 @@ class Roma
         :greater_than_or_equal_to => 1,
         :less_than_or_equal_to => 2147483647,
         :message =>' : number must be from 1 to 2147483647.' }
+  validates :log_shift_size,
+      allow_nil: true,
+      :numericality => {
+        :only_integer => true,
+        :greater_than_or_equal_to => 4096,
+        :less_than_or_equal_to => 2147483647,
+        :message =>' : number must be from 4096 to 2147483647.' }
+  validates :log_shift_age,
+      allow_nil: true,
+      :numericality => {
+        :only_integer => true,
+        :greater_than_or_equal_to => 1,
+        :less_than_or_equal_to => 1024,
+        :message =>' : number must be from 1 to 1024.' }
   validates :hilatency_warn_time,
       allow_nil: true,
       :numericality => { 
@@ -100,7 +117,7 @@ class Roma
     :numericality => { 
       :only_integer => true,
       :greater_than_or_equal_to => 0,
-      :message =>' : parameter should be digit & over 0'  }
+      :message =>' : parameter should be digit & over 0' }
 
   def initialize(params = nil)
     super(params)
@@ -141,6 +158,9 @@ class Roma
     elsif k == "lost_action" && !["auto_assign", "shutdown"].include?(v)
       errors.add(k, " : Unexpected Error. This value is required")
       return false
+    elsif k == "enabled_failover" && !["on", "off"].include?(v)
+      errors.add(k, " : Unexpected Error. This value is required")
+      return false
     else
       true
     end
@@ -170,7 +190,9 @@ class Roma
       roma_instance_info[instance]["size"] = nil
       roma_instance_info[instance]["version"] = nil
       roma_instance_info[instance]["primary_nodes"] = nil
-      roma_instance_info[instance]["secondary_nodes"] = nil
+      ##roma_instance_info[instance]["secondary_nodes"] = nil
+      #roma_instance_info[instance]["secondary_nodes1"] = nil
+      #roma_instance_info[instance]["secondary_nodes2"] = nil
       unless option_params.empty?
         option_params.each{|param|
           roma_instance_info[instance][param] = nil
@@ -186,6 +208,8 @@ class Roma
     active_routing_list.each{|instance|
       begin
         each_stats = self.get_stats(instance.split("_")[0], instance.split("_")[1])
+
+
 
         ### status[active|inactive|recover|join]
         if each_stats["stats"]["run_recover"].chomp == "true"
@@ -210,9 +234,19 @@ class Roma
         ### version
         routing_list_info[instance]["version"] = each_stats["others"]["version"].chomp
 
+        ### redundancy
+        routing_list_info[instance]["redundant"] = rd = each_stats["routing"]["redundant"].to_i
+        
         ### vnodes count
         routing_list_info[instance]["primary_nodes"] = each_stats["routing"]["primary"].to_i
-        routing_list_info[instance]["secondary_nodes"] = each_stats["routing"]["secondary"].to_i
+
+        if ApplicationController.helpers.chk_roma_version(@stats_hash['others']['version']) < Constants::VERSION_1_2_0
+          routing_list_info[instance]["secondary_nodes"] = each_stats["routing"]["secondary"].to_i
+        else
+          (rd-1).times{|i|
+            routing_list_info[instance]["secondary_nodes#{i+1}"] = each_stats["routing"]["secondary#{i+1}"].to_i
+          }
+        end
 
         ### option params
         unless option_params.empty?
