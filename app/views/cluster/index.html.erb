@@ -170,17 +170,25 @@
             <th rowspan="2">Data rate</th>
             <th rowspan="2" class="datasize-column">Data size</th>
           <% end %>
-          <!--<th colspan="2">vnodes count</th>-->
-          <th colspan="<%= @stats_hash['routing']['redundant'] %>">vnodes count</th>
+          <% if chk_roma_version(@stats_hash['others']['version']) < Constants::VERSION_1_2_0 %>
+            <th colspan="2">vnodes count</th>
+          <% else %>
+            <th colspan="<%= @stats_hash['routing']['redundant'] %>">vnodes count</th>
+          <% end %>
           <% if session[:user_type] == 'root' %>
             <th rowspan="2" class="button-column">&nbsp;</th>
           <% end %>
         </tr>
         <tr>
           <th class="vnodes-column">Primary</th>
-          <% (@stats_hash['routing']['redundant'].to_i - 1).times{|i| %>
-            <th class="vnodes-column filter-false">Secondary<%= i+1 %></th>
-          <% } %>
+          <% if chk_roma_version(@stats_hash['others']['version']) < Constants::VERSION_1_2_0 %>
+            <th class="vnodes-column filter-false">Secondary</th>
+          <% else %>
+            <% (@stats_hash['routing']['redundant'].to_i - 1).times{|i| %>
+              <th class="vnodes-column filter-false">Secondary<%= i+1 %></th>
+            <% } %>
+          <% end %>
+
         </tr>
       </thead>
       <tbody class="table-contents">
@@ -250,14 +258,22 @@
                 <%= info["primary_nodes"] %>
               </span>
             </td>
-
-            <% (@stats_hash['routing']['redundant'].to_i - 1).times{|i|  %>
+            <!-- Secondary nodes -->
+            <% if chk_roma_version(@stats_hash['others']['version']) < Constants::VERSION_1_2_0 %>
               <td>
-                <span id="secondary-nodes<%= i+1 %>-<%= instance.gsub(/[^0-9]/,'') %>">
-                  <%= info["secondary_nodes#{i+1}"] %>
+                <span id="secondary-nodes-<%= instance.gsub(/[^0-9]/,'') %>">
+                  <%= info["secondary_nodes"] %>
                 </span>
               </td>
-            <% } %>
+            <% else %>
+              <% (@stats_hash['routing']['redundant'].to_i - 1).times{|i|  %>
+                <td>
+                  <span id="secondary-nodes<%= i+1 %>-<%= instance.gsub(/[^0-9]/,'') %>">
+                    <%= info["secondary_nodes#{i+1}"] %>
+                  </span>
+                </td>
+              <% } %>
+            <% end %>
 
             <!-- release/rbalse button(for root user) -->
             <% if session[:user_type] == 'root' %>

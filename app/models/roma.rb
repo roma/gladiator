@@ -209,6 +209,8 @@ class Roma
       begin
         each_stats = self.get_stats(instance.split("_")[0], instance.split("_")[1])
 
+
+
         ### status[active|inactive|recover|join]
         if each_stats["stats"]["run_recover"].chomp == "true"
           status = "recover"
@@ -237,9 +239,14 @@ class Roma
         
         ### vnodes count
         routing_list_info[instance]["primary_nodes"] = each_stats["routing"]["primary"].to_i
-        (rd-1).times{|i|
-          routing_list_info[instance]["secondary_nodes#{i+1}"] = each_stats["routing"]["secondary#{i+1}"].to_i
-        }
+
+        if ApplicationController.helpers.chk_roma_version(@stats_hash['others']['version']) < Constants::VERSION_1_2_0
+          routing_list_info[instance]["secondary_nodes"] = each_stats["routing"]["secondary"].to_i
+        else
+          (rd-1).times{|i|
+            routing_list_info[instance]["secondary_nodes#{i+1}"] = each_stats["routing"]["secondary#{i+1}"].to_i
+          }
+        end
 
         ### option params
         unless option_params.empty?

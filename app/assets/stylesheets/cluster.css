@@ -207,7 +207,16 @@ li.version-diff-info {
 
 .cluster-type-panel .panel-name {
   color: white;
-  
+  filter:dropshadow(color=grey,offX= 0,offY=-1)
+  dropshadow(color=grey,offX= 1,offY= 0)
+  dropshadow(color=grey,offX= 0,offY= 1)
+  dropshadow(color=grey,offX=-1,offY= 0);
+   
+  -webkit-text-stroke-color: grey;
+  -webkit-text-stroke-width: 0.1px;
+   
+  text-shadow: grey 1px 1px 0px, grey -1px 1px 0px,
+               grey 1px -1px 0px, grey -1px -1px 0px;  
 }
 .cluster-type-panel .panel-value {
   text-align: center;

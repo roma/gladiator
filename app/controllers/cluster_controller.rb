@@ -18,10 +18,13 @@ class ClusterController < ApplicationController
           # in case of release was executing by console or login by other users
           if !session[:denominator]
             session[:denominator] = info["primary_nodes"]
-            (info["redundant"]-1).times{|i|
-              session[:denominator] += info["secondary_nodes#{i+1}"] 
-            }
- 
+            if view_context.chk_roma_version(@stats_hash['others']['version']) < Constants::VERSION_1_2_0
+              session[:denominator] += info["secondary_nodes"] 
+            else
+              (info["redundant"]-1).times{|i|
+                session[:denominator] += info["secondary_nodes#{i+1}"] 
+              }
+            end
           end
           gon.denominator = session[:denominator]
           gon.routing_info = @routing_info
@@ -101,9 +104,13 @@ class ClusterController < ApplicationController
     @routing_info = roma.get_routing_info(@active_routing_list)
     gon.routing_info = @routing_info
     session[:denominator] = @routing_info[params[:target_instance]]["primary_nodes"]
-    (@stats_hash["routing"]["redundant"].to_i - 1).times{|i|
-      session[:denominator] += @routing_info[params[:target_instance]]["secondary_nodes#{i+1}"]
-    }
+    if view_context.chk_roma_version(@stats_hash['others']['version']) < Constants::VERSION_1_2_0
+      session[:denominator] += @routing_info[params[:target_instance]]["secondary_nodes"]
+    else
+      (@stats_hash["routing"]["redundant"].to_i - 1).times{|i|
+        session[:denominator] += @routing_info[params[:target_instance]]["secondary_nodes#{i+1}"]
+      }
+    end
     gon.denominator = session[:denominator]
 
     render :action => "index"
