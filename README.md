@@ -35,7 +35,7 @@ This library is written in almost Ruby, provides GUI control system of ROMA.
 * Rails => 4.0.2(recommend)
 * Ruby => 2.1.2(recommend)
 * ROMA
-  * v1.2.0 : Full support(recommend)
+  * v1.3.0 : Full support(recommend)
   * v1.0.0~ : Full support 
   * v0.8.11 ~ v0.8.14 : Some functions are limited
   * ~v0.8.10 : Can not use 

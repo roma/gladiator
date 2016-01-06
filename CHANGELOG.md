@@ -1,3 +1,6 @@
+# [1.3.0] (Jan 15 2016)
+* adjust ROMA v1.3.0 [hiroaki-iwase] a6b8b3
+
 # [1.2.0](http://roma-kvs.org/blogs/blog-entry-13.html) (Sep 30 2015)
 * gather main logic of add_user and revert_config tool [hiroaki-iwase] 04bedfc
 * add reverting config tool [hiroaki-iwase] 3c93ad3
