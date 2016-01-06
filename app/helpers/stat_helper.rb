@@ -383,6 +383,23 @@ module StatHelper
           Write-behind function keep history of target command.<br>
           Ex.) Excecuting time, value, etc...
         EOS
+      when "run_replication"
+        return <<-EOS
+          Cluster Replicaion(Hot Standby) process going or not.
+        EOS
+      when "run_existing_data_replication"
+        return <<-EOS
+          Cluster Replicaion process are replicating the existing data from main to replica cluster.
+        EOS
+      when "replica_mklhash"
+        return <<-EOS
+          Hash value of replica cluster's constitution.<br>
+          If replica cluster's constitution will be change, this value will be change, too.
+        EOS
+      when "replica_nodelist"
+        return <<-EOS
+          Node list of replica cluster.
+        EOS
       when "redundant"
         return <<-EOS
        	  Count of redundancy.
